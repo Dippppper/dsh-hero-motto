@@ -11,6 +11,12 @@ pool of lines that rotate on a timer. It starts with just those two, so update i
 under **Plugins → New-session motto rotation** with your own lines. Everything
 below is configurable there.
 
+![A Chinese motto rotating beside the whale on the new-session screen](docs/01-hero-zh.png)
+
+![An English motto with its bracketed word painted in the accent colour](docs/02-hero-highlight.png)
+
+![The settings card: interval, animation, alignment, fonts, accent colour, and the preview-badge switch](docs/03-settings.png)
+
 ## Features
 
 | Feature | Notes |
