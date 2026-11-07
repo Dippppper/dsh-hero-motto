@@ -80,7 +80,7 @@ Host 半侧会立刻激活，但浏览器模块每个页面只加载一次。安
 | `client.js` | 浏览器半侧：hero 品牌位占用者、短句逻辑、设置卡片 |
 | `cordis.patch.yml` | 插入 `hero-motto` 这一行的 bundle patch |
 | `locale/*.json` | 插件页显示的标题与描述 |
-| `icon.svg` | 插件图标 |
+| `icon.png` | 插件图标 |
 
 ## 许可证
 

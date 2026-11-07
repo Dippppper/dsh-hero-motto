@@ -87,7 +87,7 @@ Both are single-line selector updates in `client.js`.
 | `client.js` | Browser half: the hero mark occupant, the mottos, and the settings card |
 | `cordis.patch.yml` | The bundle patch that inserts the `hero-motto` row |
 | `locale/*.json` | Plugin title and description for the Plugins page |
-| `icon.svg` | Plugin icon |
+| `icon.png` | Plugin icon |
 
 ## Licence
 
