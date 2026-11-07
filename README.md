@@ -1,5 +1,7 @@
 # dsh-hero-motto
 
+English | [中文](README.zh.md)
+
 Rotating DeepSeek-style mottos beside the whale on the **new-session** screen of
 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness), with a
 settings card on the plugin page.
