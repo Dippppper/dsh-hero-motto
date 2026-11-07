@@ -1,7 +1,7 @@
 window.__ModuleLoader__.load({
   id: 'dsh-hero-motto',
   factory(require) {
-    console.info('[hero-motto] client v2.0.2 loaded');
+    console.info('[hero-motto] client v2.0.3 loaded');
     const React = require('react');
     const h = React.createElement;
     const useSyncExternalStore = React.useSyncExternalStore || React.unstable_useSyncExternalStore;
@@ -20,27 +20,7 @@ window.__ModuleLoader__.load({
     // One mixed pool: the interface language no longer picks a list.
     const DEFAULT_PHRASES = [
       '探索未至之境',
-      '让思考再深一点',
-      '好奇心，先下水',
-      '每个问题都是一次下潜',
-      '深海无噪音，思考有回声',
-      '上下求索，向深而行',
-      '今天想弄明白什么？',
-      '慢慢想，想深一点',
-      '未知的深度，刚刚好',
-      '从问题出发，游向答案',
-      '提一个好问题',
-      '向深处，再游一米',
-      'Into the Unknown',
-      'Dive deeper, think further',
-      'Curiosity first',
-      'Every question is a dive',
-      'Depth over noise',
-      'Ask a better question',
-      'What will you explore today?',
-      'Think slow, think deep',
-      'Ideas live in the deep',
-      'One more meter down',
+      'Into the [Unknown]',
     ];
 
     const ENTRY_ID = 'hero-motto';

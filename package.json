@@ -1,6 +1,6 @@
 {
   "name": "dsh-hero-motto",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Rotating DeepSeek-style mottos beside the new-session whale, with animations, fonts, alignment, keyword emphasis, and an accent colour.",
   "type": "module",
   "keywords": ["dsh-plugin", "dsh-bundle", "deepseek-harness"],

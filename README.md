@@ -7,14 +7,15 @@ Rotating DeepSeek-style mottos beside the whale on the **new-session** screen of
 settings card on the plugin page.
 
 The shipped headline (`探索未至之境` / `Into the Unknown`) is replaced by a small
-pool of lines that rotate on a timer. Everything below is configurable from
-**Plugins → New-session motto rotation**.
+pool of lines that rotate on a timer. It starts with just those two, so update it
+under **Plugins → New-session motto rotation** with your own lines. Everything
+below is configurable there.
 
 ## Features
 
 | Feature | Notes |
 |---|---|
-| Phrase rotation | One mixed pool of Chinese and English lines; a shuffle bag visits every line once per cycle, so nothing repeats back to back |
+| Phrase rotation | One mixed pool of Chinese and English lines; a shuffle bag visits every line once per cycle, so nothing repeats back to back. Ships with two lines and is meant to be filled in |
 | Animations | Float-in · blur swap · typewriter (erases from the tail, then grows from the head) · none |
 | Rotation interval | 2–120 seconds, drag the slider (writes on release) |
 | Fonts | Four built-in presets, a "back to default" entry, or upload your own `.ttf` / `.otf` / `.woff` / `.woff2` |

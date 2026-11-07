@@ -4,33 +4,13 @@ import z from '@deepseek-ai/schemastery';
 /** Default phrase pool: one mixed list, no interface-language split. */
 export const DEFAULT_PHRASES = [
   '探索未至之境',
-  '让思考再深一点',
-  '好奇心，先下水',
-  '每个问题都是一次下潜',
-  '深海无噪音，思考有回声',
-  '上下求索，向深而行',
-  '今天想弄明白什么？',
-  '慢慢想，想深一点',
-  '未知的深度，刚刚好',
-  '从问题出发，游向答案',
-  '提一个好问题',
-  '向深处，再游一米',
-  'Into the Unknown',
-  'Dive deeper, think further',
-  'Curiosity first',
-  'Every question is a dive',
-  'Depth over noise',
-  'Ask a better question',
-  'What will you explore today?',
-  'Think slow, think deep',
-  'Ideas live in the deep',
-  'One more meter down',
+  'Into the [Unknown]',
 ];
 
 /** Pre-1.3.0 Chinese list, kept only so stored values stay valid. */
-export const LEGACY_PHRASES_ZH = DEFAULT_PHRASES.slice(0, 12);
+export const LEGACY_PHRASES_ZH = ['探索未至之境'];
 /** Pre-1.3.0 English list, kept only so stored values stay valid. */
-export const LEGACY_PHRASES_EN = DEFAULT_PHRASES.slice(12);
+export const LEGACY_PHRASES_EN = ['Into the [Unknown]'];
 
 /**
  * Rotation preferences. Every field is `.volatile()`: the values live in the
