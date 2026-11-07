@@ -1,0 +1,7 @@
+# Keep line endings stable across Windows and POSIX checkouts.
+* text=auto eol=lf
+*.png binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary

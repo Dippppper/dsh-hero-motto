@@ -1,0 +1,1034 @@
+window.__ModuleLoader__.load({
+  id: 'dsh-hero-motto',
+  factory(require) {
+    console.info('[hero-motto] client v2.0.2 loaded');
+    const React = require('react');
+    const h = React.createElement;
+    const useSyncExternalStore = React.useSyncExternalStore || React.unstable_useSyncExternalStore;
+
+    // Official logo geometry and hover-swim morph targets, copied from the
+    // dsh-client-ui-primitives FishLogo and the EmptyHero swim targets (the
+    // bundle-purity gate forbids requiring Harness client packages here; the
+    // eye subpaths carry zero weight and stay fixed across all three paths).
+    const FISH_LOGO_VIEWBOX = { width: 23.16, height: 17.04 };
+    const FISH_LOGO_PATH = 'M22.9168 1.43018C22.6713 1.31018 22.5658 1.53918 22.4223 1.65519C22.3733 1.69269 22.3318 1.74169 22.2903 1.78669C21.9317 2.1697 21.5127 2.42121 20.9657 2.39121C20.1657 2.34621 19.4827 2.59771 18.8787 3.20973C18.7502 2.45521 18.3236 2.0047 17.6746 1.71569C17.3351 1.56568 16.9916 1.41518 16.7536 1.08867C16.5876 0.856163 16.5421 0.597155 16.4591 0.341647C16.4061 0.187643 16.3536 0.0301382 16.1761 0.00363739C15.9836 -0.0263635 15.9081 0.135141 15.8326 0.270145C15.5306 0.822162 15.4136 1.43018 15.4251 2.0462C15.4516 3.43174 16.0366 4.53527 17.1991 5.3203C17.3311 5.4103 17.3651 5.5003 17.3236 5.63181C17.2441 5.90231 17.1501 6.16482 17.0671 6.43533C17.0141 6.60784 16.9351 6.64584 16.7501 6.57033C16.1121 6.30383 15.5611 5.90931 15.074 5.4328C14.2475 4.63328 13.5 3.75075 12.568 3.05973C12.349 2.89822 12.13 2.74822 11.9034 2.60522C10.9524 1.68169 12.028 0.923165 12.277 0.833162C12.5375 0.739159 12.3675 0.41615 11.5259 0.42015C10.6844 0.42365 9.91439 0.705658 8.93286 1.08117C8.78935 1.13767 8.63835 1.17867 8.48384 1.21267C7.59332 1.04367 6.66829 1.00617 5.70226 1.11517C3.88321 1.31768 2.43016 2.1777 1.36213 3.64575C0.0790928 5.4103 -0.222916 7.41536 0.146595 9.50642C0.535106 11.7105 1.66014 13.535 3.38869 14.9616C5.18125 16.4406 7.24581 17.1657 9.60138 17.0266C11.0319 16.9441 12.6245 16.7526 14.421 15.2321C14.874 15.4576 15.3496 15.5476 16.1381 15.6151C16.7456 15.6716 17.3306 15.5851 17.7836 15.4911C18.4931 15.3411 18.4441 14.6841 18.1876 14.5636C16.1081 13.595 16.5646 13.9891 16.1496 13.67C17.2061 12.42 18.8202 10.1979 19.3182 7.17235C19.3672 6.83834 19.4297 6.36783 19.4222 6.09732C19.4182 5.93231 19.4562 5.86831 19.6447 5.84931C20.1657 5.78931 20.6712 5.64681 21.1357 5.3913C22.4833 4.65528 23.0268 3.44624 23.1548 1.9972C23.1738 1.77569 23.1508 1.54668 22.9168 1.43018ZM11.1749 14.4736C9.15936 12.889 8.18184 12.3675 7.77832 12.39C7.40081 12.4125 7.46881 12.8445 7.55182 13.126C7.63882 13.404 7.75182 13.5955 7.91033 13.8396C8.01983 14.0011 8.09533 14.2411 7.80083 14.4216C7.15181 14.8231 6.02327 14.2866 5.97027 14.2601C4.65673 13.4865 3.5587 12.4655 2.78467 11.069C2.03715 9.72493 1.60314 8.28289 1.53164 6.74384C1.51264 6.37233 1.62214 6.24082 1.99215 6.17332C2.47916 6.08332 2.98118 6.06432 3.46769 6.13582C5.52476 6.43633 7.27581 7.35586 8.74385 8.8129C9.58188 9.64243 10.2159 10.634 10.8689 11.6025C11.5634 12.631 12.3105 13.611 13.262 14.4146C13.598 14.6961 13.866 14.9101 14.1225 15.0681C13.349 15.1546 12.058 15.1731 11.1749 14.4746L11.1749 14.4736ZM12.141 8.25988C12.141 8.09488 12.273 7.96338 12.439 7.96338C12.4765 7.96338 12.5105 7.97088 12.541 7.98188C12.5825 7.99688 12.6205 8.01938 12.6505 8.05338C12.7035 8.10588 12.7335 8.18088 12.7335 8.25988C12.7335 8.42489 12.6015 8.55639 12.4355 8.55639C12.2695 8.55639 12.141 8.42489 12.141 8.25988ZM15.1415 9.79893C14.949 9.87793 14.7565 9.94544 14.5715 9.95294C14.2845 9.96794 13.9715 9.85143 13.8015 9.70893C13.5375 9.48742 13.3485 9.36342 13.2695 8.97691C13.2355 8.8119 13.2545 8.55639 13.2845 8.40989C13.3525 8.09438 13.277 7.89187 13.0545 7.70787C12.8735 7.55786 12.643 7.51636 12.39 7.51636C12.2955 7.51636 12.209 7.47486 12.1445 7.44136C12.039 7.38886 11.9519 7.25735 12.035 7.09585C12.0615 7.04335 12.19 6.91584 12.22 6.89334C12.5635 6.69784 12.9595 6.76184 13.326 6.90834C13.6655 7.04735 13.9225 7.30236 14.292 7.66287C14.6695 8.09838 14.7375 8.21838 14.9525 8.54539C15.1225 8.8009 15.277 9.06341 15.3831 9.36392C15.4471 9.55142 15.3641 9.70493 15.1415 9.79893Z';
+    const SWIM_UP =
+      'M22.403 0.567C22.145 0.477 22.068 0.718 21.939 0.85C21.895 0.893 21.86 0.947 21.824 0.997C21.515 1.421 21.13 1.721 20.591 1.77C19.829 1.867 19.221 2.244 18.712 2.958C18.535 2.227 18.116 1.839 17.516 1.626C17.203 1.506 16.887 1.379 16.663 1.064C16.508 0.839 16.462 0.581 16.383 0.329C16.332 0.176 16.283 0.02 16.121 -0.002C15.944 -0.029 15.875 0.133 15.805 0.269C15.52 0.822 15.408 1.43 15.42 2.046C15.449 3.432 16.031 4.532 17.202 5.274C17.337 5.356 17.374 5.445 17.335 5.582C17.261 5.862 17.169 6.134 17.086 6.413C17.032 6.59 16.952 6.63 16.764 6.558C16.118 6.301 15.562 5.909 15.074 5.433C14.248 4.633 13.5 3.751 12.568 3.06C12.349 2.898 12.13 2.748 11.903 2.605C10.952 1.682 12.028 0.923 12.277 0.833C12.537 0.739 12.367 0.416 11.526 0.42C10.684 0.424 9.914 0.706 8.933 1.081C8.789 1.138 8.638 1.179 8.484 1.213C7.593 1.044 6.668 1.006 5.702 1.115C3.883 1.318 2.43 2.178 1.362 3.646C0.079 5.41 -0.223 7.415 0.147 9.506C0.535 11.71 1.66 13.535 3.389 14.962C5.181 16.441 7.246 17.166 9.601 17.027C11.032 16.944 12.624 16.753 14.421 15.232C14.874 15.458 15.35 15.548 16.138 15.615C16.746 15.672 17.331 15.585 17.784 15.491C18.493 15.341 18.444 14.684 18.188 14.564C16.108 13.595 16.565 13.989 16.15 13.67C17.206 12.42 18.82 10.198 19.363 7.086C19.421 6.709 19.484 6.171 19.469 5.866C19.458 5.681 19.493 5.604 19.681 5.556C20.199 5.412 20.691 5.172 21.125 4.806C22.366 3.824 22.758 2.554 22.708 1.1C22.7 0.878 22.649 0.654 22.403 0.567ZM11.175 14.451C9.159 12.726 8.182 12.088 7.778 12.067C7.401 12.047 7.469 12.505 7.552 12.807C7.639 13.103 7.752 13.313 7.91 13.581C8.02 13.758 8.095 14.01 7.801 14.16C7.152 14.487 6.023 13.806 5.97 13.772C4.657 12.85 3.559 11.766 2.785 10.369C2.037 9.025 1.603 7.583 1.532 6.044C1.513 5.672 1.622 5.541 1.992 5.473C2.479 5.383 2.981 5.364 3.468 5.436C5.525 5.736 7.276 6.675 8.744 8.323C9.582 9.299 10.216 10.425 10.869 11.496C11.563 12.592 12.31 13.603 13.262 14.414C13.598 14.696 13.866 14.91 14.123 15.068C13.349 15.154 12.058 15.167 11.175 14.452L11.175 14.451ZM12.141 8.26C12.141 8.095 12.273 7.963 12.439 7.963C12.476 7.963 12.511 7.971 12.541 7.982C12.582 7.997 12.62 8.019 12.65 8.053C12.704 8.106 12.733 8.181 12.733 8.26C12.733 8.425 12.601 8.556 12.435 8.556C12.27 8.556 12.141 8.425 12.141 8.26ZM15.142 9.799C14.949 9.878 14.757 9.945 14.572 9.953C14.284 9.968 13.972 9.851 13.802 9.709C13.537 9.487 13.348 9.363 13.27 8.977C13.236 8.812 13.255 8.556 13.284 8.41C13.352 8.094 13.277 7.892 13.055 7.708C12.873 7.558 12.643 7.516 12.39 7.516C12.296 7.516 12.209 7.475 12.145 7.441C12.039 7.389 11.952 7.257 12.035 7.096C12.062 7.043 12.19 6.916 12.22 6.893C12.563 6.698 12.96 6.762 13.326 6.908C13.665 7.047 13.922 7.302 14.292 7.663C14.669 8.098 14.738 8.218 14.953 8.545C15.123 8.801 15.277 9.063 15.383 9.364C15.447 9.551 15.364 9.705 15.142 9.799Z';
+    const SWIM_DOWN =
+      'M23.271 2.216C23.039 2.071 22.91 2.287 22.755 2.388C22.703 2.42 22.656 2.464 22.61 2.505C22.214 2.848 21.771 3.054 21.225 2.956C20.412 2.784 19.68 2.919 19.005 3.435C18.92 2.663 18.493 2.157 17.808 1.798C17.446 1.621 17.08 1.449 16.83 1.111C16.656 0.872 16.611 0.612 16.524 0.354C16.469 0.198 16.414 0.039 16.223 0.009C16.017 -0.024 15.936 0.137 15.856 0.271C15.539 0.822 15.418 1.43 15.429 2.046C15.454 3.432 16.041 4.538 17.196 5.36C17.325 5.456 17.356 5.547 17.312 5.674C17.229 5.936 17.134 6.191 17.051 6.454C16.999 6.623 16.921 6.659 16.738 6.58C16.107 6.306 15.56 5.909 15.074 5.433C14.248 4.633 13.5 3.751 12.568 3.06C12.349 2.898 12.13 2.748 11.903 2.605C10.952 1.682 12.028 0.923 12.277 0.833C12.537 0.739 12.367 0.416 11.526 0.42C10.684 0.424 9.914 0.706 8.933 1.081C8.789 1.138 8.638 1.179 8.484 1.213C7.593 1.044 6.668 1.006 5.702 1.115C3.883 1.318 2.43 2.178 1.362 3.646C0.079 5.41 -0.223 7.415 0.147 9.506C0.535 11.71 1.66 13.535 3.389 14.962C5.181 16.441 7.246 17.166 9.601 17.027C11.032 16.944 12.624 16.753 14.421 15.232C14.874 15.458 15.35 15.548 16.138 15.615C16.746 15.672 17.331 15.585 17.784 15.491C18.493 15.341 18.444 14.684 18.188 14.564C16.108 13.595 16.565 13.989 16.15 13.67C17.206 12.42 18.82 10.198 19.278 7.246C19.318 6.948 19.375 6.534 19.371 6.293C19.371 6.145 19.411 6.092 19.597 6.098C20.113 6.109 20.619 6.051 21.096 5.891C22.503 5.375 23.169 4.232 23.448 2.804C23.49 2.586 23.491 2.356 23.271 2.216ZM11.175 14.49C9.159 13.005 8.182 12.567 7.778 12.621C7.401 12.673 7.469 13.087 7.552 13.354C7.639 13.619 7.752 13.797 7.91 14.024C8.02 14.175 8.095 14.406 7.801 14.609C7.152 15.063 6.023 14.63 5.97 14.609C4.657 13.941 3.559 12.965 2.785 11.569C2.037 10.225 1.603 8.783 1.532 7.244C1.513 6.872 1.622 6.741 1.992 6.673C2.479 6.583 2.981 6.564 3.468 6.636C5.525 6.936 7.276 7.843 8.744 9.163C9.582 9.888 10.216 10.783 10.869 11.679C11.563 12.659 12.31 13.617 13.262 14.415C13.598 14.696 13.866 14.91 14.123 15.068C13.349 15.155 12.058 15.177 11.175 14.491L11.175 14.49ZM12.141 8.26C12.141 8.095 12.273 7.963 12.439 7.963C12.476 7.963 12.511 7.971 12.541 7.982C12.582 7.997 12.62 8.019 12.65 8.053C12.704 8.106 12.733 8.181 12.733 8.26C12.733 8.425 12.601 8.556 12.435 8.556C12.27 8.556 12.141 8.425 12.141 8.26ZM15.142 9.799C14.949 9.878 14.757 9.945 14.572 9.953C14.284 9.968 13.972 9.851 13.802 9.709C13.537 9.487 13.348 9.363 13.27 8.977C13.236 8.812 13.255 8.556 13.284 8.41C13.352 8.094 13.277 7.892 13.055 7.708C12.873 7.558 12.643 7.516 12.39 7.516C12.296 7.516 12.209 7.475 12.145 7.441C12.039 7.389 11.952 7.257 12.035 7.096C12.062 7.043 12.19 6.916 12.22 6.893C12.563 6.698 12.96 6.762 13.326 6.908C13.665 7.047 13.922 7.302 14.292 7.663C14.669 8.098 14.738 8.218 14.953 8.545C15.123 8.801 15.277 9.063 15.383 9.364C15.447 9.551 15.364 9.705 15.142 9.799Z';
+
+    // One mixed pool: the interface language no longer picks a list.
+    const DEFAULT_PHRASES = [
+      '探索未至之境',
+      '让思考再深一点',
+      '好奇心，先下水',
+      '每个问题都是一次下潜',
+      '深海无噪音，思考有回声',
+      '上下求索，向深而行',
+      '今天想弄明白什么？',
+      '慢慢想，想深一点',
+      '未知的深度，刚刚好',
+      '从问题出发，游向答案',
+      '提一个好问题',
+      '向深处，再游一米',
+      'Into the Unknown',
+      'Dive deeper, think further',
+      'Curiosity first',
+      'Every question is a dive',
+      'Depth over noise',
+      'Ask a better question',
+      'What will you explore today?',
+      'Think slow, think deep',
+      'Ideas live in the deep',
+      'One more meter down',
+    ];
+
+    const ENTRY_ID = 'hero-motto';
+    const ANIMATIONS = ['float', 'blur', 'typewriter', 'none'];
+    const LEAVE_MS = 420;
+    const TYPE_MS = 45;
+
+    const COPY = {
+      zh: {
+        cardTitle: '新会话短语轮换',
+        phrases: '句子',
+        add: '添加',
+        remove: '删除',
+        interval: '切换间隔',
+        intervalUnit: (n) => n + ' 秒',
+        animation: '切换动画',
+        animLabel: { float: '上浮淡入', blur: '模糊切换', typewriter: '打字机', none: '无动画' },
+        font: '字体',
+        fontDefault: '回到默认',
+        fontPreset: { systemUi: '系统界面', serif: '衬线', mono: '等宽', rounded: '圆润' },
+        fontPick: '选择字体文件…',
+        fontMyFonts: '我的字体',
+        fontRemove: (name) => '删除字体 ' + name,
+        fontLoadFailed: '字体文件读取失败，换个文件试试',
+        previewBadge: '保留「预览版」徽标',
+        previewBadgeHint: '关闭后标题旁的小胶囊不再显示',
+        display: '显示',
+        accent: '主题色',
+        accentHint: '用于关键词高亮等强调处',
+        accentCodeHint: '输入 #RGB 或 #RRGGBB 后回车',
+        accentPick: '自定义颜色',
+        phrasePlaceholder: '写一句想在新会话界面看到的话',
+        phrasesHint: '每次进入新会话界面随机抽一句，一轮内不重复',
+        intervalHint: '停在这句多久之后换下一句',
+        animationHint: '切换时的过渡效果',
+        alignHint: '鲸鱼和短句相对输入框的位置',
+        fontHint: '内置预设，或上传自己的字体文件',
+        align: '对齐方式',
+        alignLabel: { left: '左对齐', center: '居中', right: '右对齐' },
+        hint: '修改即时生效；新会话界面正开着的话，下一句就会按新设置轮换。',
+        highlightHint: '用 [方括号] 包住的部分会高亮显示，例如：向[深处]再游一米',
+        readonly: '设置通道暂不可写，当前展示默认值。',
+      },
+      en: {
+        cardTitle: 'New-session motto rotation',
+        phrases: 'Phrases',
+        add: 'Add',
+        remove: 'Remove',
+        interval: 'Rotation interval',
+        intervalUnit: (n) => n + ' s',
+        animation: 'Animation',
+        animLabel: { float: 'Float in', blur: 'Blur', typewriter: 'Typewriter', none: 'None' },
+        font: 'Font',
+        fontDefault: 'Back to default',
+        fontPreset: { systemUi: 'System UI', serif: 'Serif', mono: 'Mono', rounded: 'Rounded' },
+        fontPick: 'Choose font file…',
+        fontMyFonts: 'My fonts',
+        fontRemove: (name) => 'Remove font ' + name,
+        fontLoadFailed: 'Could not read that font file; try another one',
+        previewBadge: 'Keep the "Preview" badge',
+        previewBadgeHint: 'Hides that pill beside the headline',
+        display: 'Display',
+        accent: 'Accent colour',
+        accentHint: 'Used for keyword emphasis',
+        accentCodeHint: 'Type #RGB or #RRGGBB, then Enter',
+        accentPick: 'Custom colour',
+        phrasePlaceholder: 'Write a line to show on the new-session screen',
+        phrasesHint: 'Picked at random, each line once per cycle',
+        intervalHint: 'How long a line stays before the next one',
+        animationHint: 'How one line hands over to the next',
+        alignHint: 'Where the whale and line sit against the composer',
+        fontHint: 'A built-in preset, or a font file of your own',
+        align: 'Alignment',
+        alignLabel: { left: 'Left', center: 'Center', right: 'Right' },
+        hint: 'Changes apply immediately; an open new-session view picks them up on the next rotation.',
+        highlightHint: 'Wrap part of a phrase in [brackets] to emphasize it, e.g. One more [meter] down',
+        readonly: 'The settings channel is read-only right now; defaults are shown.',
+      },
+    };
+
+    function lang() {
+      if (typeof document === 'undefined') return 'zh';
+      return String(document.documentElement.lang || '').toLowerCase().startsWith('zh') ? 'zh' : 'en';
+    }
+    function copy() { return COPY[lang()]; }
+
+    function sanitizeList(value, fallback) {
+      if (!Array.isArray(value)) return fallback;
+      const list = value.filter((item) => typeof item === 'string' && item.trim() !== '');
+      return list.length > 0 ? list : fallback;
+    }
+    function clampInterval(value, fallback) {
+      const n = Number(value);
+      if (!Number.isFinite(n)) return fallback;
+      return Math.min(120, Math.max(2, Math.round(n)));
+    }
+    function sanitizeAnimation(value) {
+      return ANIMATIONS.includes(value) ? value : 'float';
+    }
+    function sanitizeAlign(value) {
+      return value === 'left' || value === 'right' || value === 'center' ? value : 'center';
+    }
+    // One accent colour drives the emphasis run and the card's own controls.
+    const ACCENT_PRESETS = ['#5B7BFE', '#22C55E', '#F59E0B', '#EC4899', '#8B5CF6', '#06B6D4'];
+    function sanitizeAccent(value) {
+      if (typeof value !== 'string') return ACCENT_PRESETS[0];
+      const hex = value.trim();
+      if (/^#?[0-9a-f]{3}$/i.test(hex)) return '#' + hex.replace('#', '').split('').map((c) => c + c).join('');
+      if (/^#?[0-9a-f]{6}$/i.test(hex)) return '#' + hex.replace('#', '').toUpperCase();
+      return ACCENT_PRESETS[0];
+    }
+    // #RRGGBB -> "r, g, b", for the translucent variants the card uses.
+    function accentRgb(hex) {
+      const clean = sanitizeAccent(hex).slice(1);
+      return [0, 2, 4].map((i) => parseInt(clean.slice(i, i + 2), 16)).join(', ');
+    }
+    // A font-family declaration from the settings card; empty means inherit.
+    // Control characters are dropped and the value is length-capped; the style
+    // channel itself refuses anything the browser cannot parse.
+    function sanitizeFont(value) {
+      if (typeof value !== 'string') return '';
+      return value.replace(/[\u0000-\u001F\u007F]/g, '').trim().slice(0, 200);
+    }
+    // Built-in typeface presets. Each is a fallback chain so Chinese and Latin
+    // both resolve; the empty value means "inherit the shipped headline font".
+    const FONT_PRESETS = [
+      { key: 'systemUi', value: "system-ui, -apple-system, 'Segoe UI', 'Microsoft YaHei', sans-serif" },
+      { key: 'serif', value: "Georgia, 'Noto Serif SC', 'Songti SC', serif" },
+      { key: 'mono', value: "ui-monospace, 'Cascadia Code', Consolas, monospace" },
+      { key: 'rounded', value: "'PingFang SC', 'Microsoft YaHei', 'Hiragino Sans GB', sans-serif" },
+    ];
+    // A stored font-family value is either a CSS list (presets) or one family
+    // name the user loaded from a file, which needs quoting to be valid.
+    function cssFontFamily(value) {
+      if (typeof value !== 'string' || value.trim() === '') return undefined;
+      if (/[,\n]/.test(value)) return value;
+      if (/^\s*(serif|sans-serif|monospace|cursive|fantasy|system-ui|ui-serif|ui-sans-serif|ui-monospace|ui-rounded)\s*$/i.test(value)) return value;
+      return '"' + value.replace(/"/g, '') + '"';
+    }
+
+    // ---- User font files: bytes live in IndexedDB, faces in document.fonts.
+    const FONT_DB = 'hero-motto-fonts';
+    const FONT_STORE = 'files';
+    function openFontDb() {
+      return new Promise((resolve, reject) => {
+        try {
+          const request = indexedDB.open(FONT_DB, 1);
+          request.onupgradeneeded = () => { request.result.createObjectStore(FONT_STORE); };
+          request.onsuccess = () => { resolve(request.result); };
+          request.onerror = () => { reject(request.error); };
+        } catch (error) {
+          reject(error);
+        }
+      });
+    }
+    async function listStoredFonts() {
+      const db = await openFontDb();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(FONT_STORE, 'readonly');
+        const store = tx.objectStore(FONT_STORE);
+        const keysRequest = store.getAllKeys();
+        const valuesRequest = store.getAll();
+        tx.oncomplete = () => {
+          db.close();
+          const keys = keysRequest.result || [];
+          const values = valuesRequest.result || [];
+          resolve(keys.map((key, index) => ({ name: String(key), buffer: values[index] })).filter((entry) => entry.buffer));
+        };
+        tx.onerror = () => { db.close(); reject(tx.error); };
+      });
+    }
+    async function putStoredFont(name, buffer) {
+      const db = await openFontDb();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(FONT_STORE, 'readwrite');
+        tx.objectStore(FONT_STORE).put(buffer, name);
+        tx.oncomplete = () => { db.close(); resolve(); };
+        tx.onerror = () => { db.close(); reject(tx.error); };
+      });
+    }
+    async function deleteStoredFont(name) {
+      const db = await openFontDb();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(FONT_STORE, 'readwrite');
+        tx.objectStore(FONT_STORE).delete(name);
+        tx.oncomplete = () => { db.close(); resolve(); };
+        tx.onerror = () => { db.close(); reject(tx.error); };
+      });
+    }
+    /** The family name a picked file is registered under. */
+    function fontNameFromFile(fileName) {
+      const base = String(fileName || '').replace(/\.[a-z0-9]+$/i, '').trim();
+      return base.replace(/["\\]/g, '').slice(0, 60) || 'Custom Font';
+    }
+    const registeredFaces = new Map();
+    async function registerFontFace(name, buffer) {
+      if (registeredFaces.has(name) || typeof FontFace !== 'function' || typeof document === 'undefined') return;
+      const face = new FontFace(name, buffer);
+      await face.load();
+      document.fonts.add(face);
+      registeredFaces.set(name, face);
+    }
+    // Published user font names for the settings card; restored fonts republish.
+    const userFonts = { names: [], listeners: new Set() };
+    function publishUserFonts(names) {
+      userFonts.names = names;
+      for (const listener of [...userFonts.listeners]) {
+        try { listener(); } catch { /* one listener must not strand the rest */ }
+      }
+    }
+    const userFontStore = {
+      getSnapshot: () => userFonts.names,
+      subscribe: (listener) => {
+        userFonts.listeners.add(listener);
+        return () => { userFonts.listeners.delete(listener); };
+      },
+    };
+    async function restoreUserFonts() {
+      try {
+        const stored = await listStoredFonts();
+        for (const entry of stored) {
+          await registerFontFace(entry.name, entry.buffer);
+        }
+        publishUserFonts(stored.map((entry) => entry.name));
+      } catch (error) {
+        console.warn('hero-motto: could not restore saved fonts:', error);
+      }
+    }
+
+    function reducedMotion() {
+      try {
+        return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      } catch {
+        return false;
+      }
+    }
+
+    // ---- Effective-settings store (uSES-safe): one cached object per form snapshot.
+    let cachedSnap = null;
+    let cachedEffective = null;
+    function computeEffective(snap) {
+      const value = snap && snap.value && typeof snap.value === 'object' ? snap.value : {};
+      return {
+        phrases: mergePhrases(value),
+        intervalSeconds: clampInterval(value.intervalSeconds, 8),
+        animation: sanitizeAnimation(value.animation),
+        fontFamily: sanitizeFont(value.fontFamily),
+        showPreviewBadge: value.showPreviewBadge !== false,
+        align: sanitizeAlign(value.align),
+        accent: sanitizeAccent(value.accent),
+        writable: snap ? snap.writable !== false : false,
+      };
+    }
+
+    // The single phrase pool. Entries stored before the lists were merged keep
+    // living in `phrasesZh`/`phrasesEn` until the first write to `phrases`.
+    function mergePhrases(value) {
+      if (Array.isArray(value.phrases) && value.phrases.some((item) => typeof item === 'string' && item.trim() !== '')) {
+        return sanitizeList(value.phrases, DEFAULT_PHRASES);
+      }
+      const legacy = []
+        .concat(sanitizeList(value.phrasesZh, []))
+        .concat(sanitizeList(value.phrasesEn, []));
+      return legacy.length > 0 ? legacy : DEFAULT_PHRASES;
+    }
+
+    // Split one phrase into plain and [emphasized] runs. Unclosed brackets stay
+    // literal so a half-typed phrase never loses characters.
+    function splitHighlighted(text) {
+      const source = String(text || '');
+      const parts = [];
+      let rest = source;
+      while (rest.length > 0) {
+        const open = rest.indexOf('[');
+        if (open < 0) { parts.push({ text: rest, emphasis: false }); break; }
+        if (open > 0) parts.push({ text: rest.slice(0, open), emphasis: false });
+        const close = rest.indexOf(']', open + 1);
+        if (close < 0) { parts.push({ text: rest.slice(open), emphasis: false }); break; }
+        const inner = rest.slice(open + 1, close);
+        parts.push({ text: inner, emphasis: inner.length > 0 });
+        rest = rest.slice(close + 1);
+      }
+      return parts;
+    }
+    function renderHighlighted(text) {
+      const parts = splitHighlighted(text);
+      if (!parts.some((part) => part.emphasis)) return text;
+      return parts.map((part, position) => (part.emphasis
+        ? h('span', { key: position, className: 'hero-motto-em' }, part.text)
+        : part.text));
+    }
+
+    // ---- Hero mark occupant. Receives the effective-settings store via the
+    // registration's inject option (apply's closure owns the settings channel).
+    function HeroMotto(props) {
+      const store = (props && props.settings) || NULL_STORE;
+      const settings = useSyncExternalStore(store.subscribe, store.getSnapshot);
+      const animation = reducedMotion() ? 'none' : settings.animation;
+      const settingsRef = React.useRef(settings);
+      settingsRef.current = settings;
+
+      const phraseList = () => settingsRef.current.phrases;
+      const [index, setIndex] = React.useState(() => Math.floor(Math.random() * phraseList().length));
+      const indexRef = React.useRef(index);
+      indexRef.current = index;
+
+      const [leaving, setLeaving] = React.useState(false);
+      // Typewriter visible character count; a number while erasing or growning,
+      // null once the current phrase is fully shown.
+      const [typed, setTyped] = React.useState(null);
+      const [hovering, setHovering] = React.useState(false);
+      const leaveTimer = React.useRef(null);
+      const typeTimer = React.useRef(null);
+      const swappingRef = React.useRef(false);
+      const clearTypeTimer = () => {
+        if (typeTimer.current) {
+          clearInterval(typeTimer.current);
+          typeTimer.current = null;
+        }
+      };
+      React.useEffect(() => () => {
+        if (leaveTimer.current) clearTimeout(leaveTimer.current);
+        clearTypeTimer();
+      }, []);
+
+      // Shuffle bag: every phrase is visited once per cycle before any repeats,
+      // so a small pool never shows the same line twice in a row by chance.
+      const bagRef = React.useRef({ key: '', queue: [] });
+      const nextIndex = () => {
+        const list = phraseList();
+        if (list.length < 2) return 0;
+        // A rewritten list invalidates the cycle.
+        const key = list.join('\u0000');
+        const bag = bagRef.current;
+        if (bag.key !== key) {
+          bagRef.current = { key, queue: [] };
+        }
+        const state = bagRef.current;
+        // Drop consumed entries and anything pointing outside a shrunken list.
+        state.queue = state.queue.filter((item) => item >= 0 && item < list.length);
+        if (state.queue.length === 0) {
+          const fresh = list.map((_, position) => position);
+          for (let i = fresh.length - 1; i > 0; i -= 1) {
+            const j = Math.floor(Math.random() * (i + 1));
+            const swap = fresh[i];
+            fresh[i] = fresh[j];
+            fresh[j] = swap;
+          }
+          // The first pick of a new cycle must differ from what is on screen.
+          if (fresh.length > 1 && fresh[0] === indexRef.current) {
+            const swap = fresh[0];
+            fresh[0] = fresh[1];
+            fresh[1] = swap;
+          }
+          state.queue = fresh;
+        }
+        return state.queue.shift();
+      };
+
+      // Typewriter swap: the old phrase loses one character at a time from its
+      // last character until empty, then the new phrase grows from its first.
+      const runTypewriterSwap = () => {
+        if (swappingRef.current) return;
+        const list = phraseList();
+        const target = nextIndex();
+        const targetText = list[target] || '';
+        let visible = (list[indexRef.current] || '').length;
+        if (target === indexRef.current && visible === 0) return;
+        swappingRef.current = true;
+        clearTypeTimer();
+        setTyped(visible);
+        typeTimer.current = setInterval(() => {
+          visible -= 1;
+          if (visible > 0) {
+            setTyped(visible);
+            return;
+          }
+          clearTypeTimer();
+          indexRef.current = target;
+          setIndex(target);
+          let grow = 0;
+          setTyped(0);
+          typeTimer.current = setInterval(() => {
+            grow += 1;
+            if (grow >= targetText.length) {
+              clearTypeTimer();
+              setTyped(null);
+              swappingRef.current = false;
+              return;
+            }
+            setTyped(grow);
+          }, TYPE_MS);
+        }, TYPE_MS);
+      };
+
+      const intervalMs = settings.intervalSeconds * 1000;
+      const morphs = animation === 'float' || animation === 'blur';
+      React.useEffect(() => {
+        const timer = setInterval(() => {
+          if (typeof document !== 'undefined' && document.hidden) return;
+          if (animation === 'typewriter') {
+            runTypewriterSwap();
+            return;
+          }
+          const swap = () => {
+            const target = nextIndex();
+            indexRef.current = target;
+            setIndex(target);
+            setLeaving(false);
+          };
+          if (morphs) {
+            setLeaving(true);
+            leaveTimer.current = setTimeout(swap, LEAVE_MS);
+          } else {
+            swap();
+          }
+        }, intervalMs);
+        return () => clearInterval(timer);
+      }, [intervalMs, morphs, animation]);
+
+      // Leaving the typewriter mode drops any half-drawn state.
+      React.useEffect(() => {
+        if (animation === 'typewriter') return undefined;
+        swappingRef.current = false;
+        clearTypeTimer();
+        setTyped(null);
+        return undefined;
+      }, [animation]);
+
+      const list = settings.phrases;
+      const safeIndex = Math.min(index, list.length - 1);
+      const text = list[safeIndex] || '';
+      const shown = animation === 'typewriter' && typed !== null ? text.slice(0, typed) : text;
+      // [bracketed] runs are emphasized; the brackets themselves are dropped.
+      const rendered = renderHighlighted(shown);
+      const textClass = 'hero-motto-text'
+        + (morphs && leaving ? ' hero-motto-leave' : '')
+        + (animation === 'blur' ? ' hero-motto-blur' : '')
+        + (animation === 'typewriter' ? ' hero-motto-type' : '')
+        + (animation === 'none' ? ' hero-motto-plain' : '');
+
+      const fish = h('svg', {
+        className: props && props.className,
+        width: (props && props.size) || 34,
+        height: (((props && props.size) || 34) * FISH_LOGO_VIEWBOX.height) / FISH_LOGO_VIEWBOX.width,
+        viewBox: '0 0 ' + FISH_LOGO_VIEWBOX.width + ' ' + FISH_LOGO_VIEWBOX.height,
+        fill: 'none',
+        'aria-hidden': true,
+      }, h('path', { d: FISH_LOGO_PATH, fill: 'currentColor' },
+        hovering ? h('animate', {
+          attributeName: 'd',
+          values: FISH_LOGO_PATH + ';' + SWIM_UP + ';' + FISH_LOGO_PATH + ';' + SWIM_DOWN + ';' + FISH_LOGO_PATH,
+          keyTimes: '0;0.35;0.55;0.75;1',
+          calcMode: 'spline',
+          keySplines: '0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1',
+          dur: '1.6s',
+          repeatCount: 'indefinite',
+        }) : null));
+
+      return h('span', {
+        style: { display: 'inline-flex', alignItems: 'center', gap: 10, '--hero-motto-accent': settings.accent },
+        // Read by the :has() rules above on the shipped headline element.
+        'data-hero-motto-align': settings.align,
+        // The mark is the sibling the badge-hiding rule keys off.
+        'data-hero-motto-badge': settings.showPreviewBadge ? 'on' : 'off',
+        onPointerEnter: (event) => {
+          if (event.pointerType !== 'touch'
+            && window.matchMedia('(hover: hover) and (prefers-reduced-motion: no-preference)').matches) {
+            setHovering(true);
+          }
+        },
+        onPointerLeave: () => { setHovering(false); },
+      },
+        fish,
+        h('style', null, STYLES),
+        h('span', {
+          key: index,
+          className: textClass,
+          // Typeface only: size and weight stay the shipped headline values.
+          style: cssFontFamily(settings.fontFamily) === undefined ? undefined : { fontFamily: cssFontFamily(settings.fontFamily) },
+        }, rendered));
+    }
+
+    const STYLES = [
+      // Hide the shipped headline text only; its second span is the preview
+      // badge, which stays unless the settings turn it off.
+      '[class*="fishHitbox"] ~ [class*="titleGroup"] > span:first-child { display: none; }',
+      // The badge lives in the title group. The mark renders INSIDE the shipped
+      // hitbox span, so the hitbox - not the mark - is the title group's
+      // sibling: :has() lifts the opt-out state up to that sibling.
+      '[class*="fishHitbox"]:has([data-hero-motto-badge="off"]) ~ [class*="titleGroup"] { display: none; }',
+      // Alignment: the whole whale+phrase line sits left / center / right
+      // against the composer card's width. The mark renders INSIDE the shipped
+      // headline, so :has() lifts the setting up to the element that owns the
+      // flex line (a CSS variable cannot travel from a child up to its parent).
+      '[class*="headline"]:has([data-hero-motto-align="left"]) { justify-content: flex-start !important; }',
+      '[class*="headline"]:has([data-hero-motto-align="center"]) { justify-content: center !important; }',
+      '[class*="headline"]:has([data-hero-motto-align="right"]) { justify-content: flex-end !important; }',
+      '@keyframes hero-motto-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }',
+      '@keyframes hero-motto-out { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateY(-8px); } }',
+      '.hero-motto-text { display: inline-block; white-space: nowrap; animation: hero-motto-in 0.5s cubic-bezier(0.22, 0.8, 0.36, 1) both; will-change: opacity, transform, filter; }',
+      '.hero-motto-text.hero-motto-leave { animation: hero-motto-out 0.42s cubic-bezier(0.5, 0, 0.75, 0.4) both; }',
+      // Blur swap: the outgoing phrase dissolves into haze, the incoming one
+      // resolves out of it.
+      '@keyframes hero-motto-blur-in { from { opacity: 0; filter: blur(10px); transform: scale(0.97); } to { opacity: 1; filter: blur(0); transform: none; } }',
+      '@keyframes hero-motto-blur-out { from { opacity: 1; filter: blur(0); transform: none; } to { opacity: 0; filter: blur(10px); transform: scale(1.03); } }',
+      '.hero-motto-text.hero-motto-blur { animation: hero-motto-blur-in 0.5s cubic-bezier(0.22, 0.8, 0.36, 1) both; }',
+      '.hero-motto-text.hero-motto-blur.hero-motto-leave { animation: hero-motto-blur-out 0.42s cubic-bezier(0.5, 0, 0.75, 0.4) both; }',
+      '.hero-motto-text.hero-motto-type { animation: none; }',
+      '.hero-motto-text.hero-motto-plain { animation: none; }',
+      // [bracketed] runs: a fixed brand blue plus a touch of weight. The theme
+      // tokens that would express this are not resolvable inside the hero, so
+      // var() chains silently fell back to inherit (white on dark).
+      '.hero-motto-text .hero-motto-em { color: var(--hero-motto-accent, #5B7BFE); font-weight: 600; }',
+      '@media (prefers-reduced-motion: reduce) { .hero-motto-text { animation: none !important; filter: none !important; } }',
+      // ---- Settings card: grouped surface, section headers with captions,
+      // segmented controls, toggle switches, and an inset quote field per row.
+      '.hero-motto-card { display: flex; flex-direction: column; gap: 18px; color: var(--dsw-alias-label-primary); font-size: 13px; line-height: 20px; }',
+      // Group: one bordered block per concern, so the page reads as a form.
+      '.hero-motto-card .hero-motto-group { display: flex; flex-direction: column; gap: 12px; padding: 16px 18px; border: 0.5px solid var(--dsw-alias-border-l4); border-radius: 12px; background: var(--dsw-alias-bg-layer-1); }',
+      '.hero-motto-card .hero-motto-head { display: flex; flex-direction: column; gap: 2px; }',
+      '.hero-motto-card .hero-motto-title { margin: 0; font-size: 13px; font-weight: 600; letter-spacing: 0.01em; color: var(--dsw-alias-label-primary); }',
+      '.hero-motto-card .hero-motto-desc { margin: 0; color: var(--dsw-alias-label-caption); font-size: 12px; line-height: 18px; }',
+      '.hero-motto-card .hero-motto-row { display: flex; align-items: center; gap: 10px; }',
+      '.hero-motto-card .hero-motto-rows { display: flex; flex-direction: column; gap: 8px; }',
+      // Phrase row: the field grows, the remove action stays quiet until hover.
+      '.hero-motto-card .hero-motto-phrase { display: flex; align-items: center; gap: 8px; }',
+      '.hero-motto-card input[type="text"] { flex: 1; min-width: 0; padding: 8px 12px; border: 0.5px solid var(--dsw-alias-border-l4); border-radius: 8px; background: var(--dsw-alias-bg-base); color: var(--dsw-alias-label-primary); font-size: 13px; line-height: 18px; outline: none; transition: border-color 0.15s ease, background 0.15s ease; }',
+      '.hero-motto-card input[type="text"]:hover { border-color: var(--dsw-alias-border-l2); }',
+      '.hero-motto-card input[type="text"]:focus { border-color: var(--dsw-alias-brand-primary, var(--dsw-alias-border-l2)); background: var(--dsw-alias-bg-layer-2); }',
+      '.hero-motto-card input[type="text"]::placeholder { color: var(--dsw-alias-label-caption); }',
+      // Generic buttons (add / remove / pick).
+      '.hero-motto-card button { flex: none; padding: 6px 12px; border: 0.5px solid var(--dsw-alias-border-l4); border-radius: 8px; background: transparent; color: var(--dsw-alias-label-secondary); font-size: 12px; line-height: 18px; cursor: pointer; transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease; }',
+      '.hero-motto-card button:hover:not(:disabled) { background: var(--dsw-alias-interactive-bg-hover); color: var(--dsw-alias-label-primary); }',
+      '.hero-motto-card button:disabled { opacity: 0.45; cursor: not-allowed; }',
+      '.hero-motto-card .hero-motto-remove { padding: 6px 10px; border-color: transparent; color: var(--dsw-alias-label-caption); }',
+      '.hero-motto-card .hero-motto-remove:hover:not(:disabled) { border-color: var(--dsw-alias-state-error-primary, var(--dsw-alias-border-l4)); color: var(--dsw-alias-state-error-primary, var(--dsw-alias-label-primary)); background: transparent; }',
+      '.hero-motto-card .hero-motto-add { align-self: flex-start; border-style: dashed; }',
+      '.hero-motto-card .hero-motto-note { margin: 0; color: var(--dsw-alias-label-caption); font-size: 12px; line-height: 18px; }',
+      // Segmented control: one pill track, the active segment filled.
+      '.hero-motto-card .hero-motto-segments { display: flex; flex-wrap: wrap; gap: 4px; padding: 3px; border: 0.5px solid var(--dsw-alias-border-l4); border-radius: 10px; background: var(--dsw-alias-bg-base); }',
+      '.hero-motto-card .hero-motto-segment { flex: 1 1 auto; min-width: 0; padding: 6px 12px; border: none; border-radius: 7px; background: transparent; color: var(--dsw-alias-label-caption); font-size: 12px; line-height: 18px; text-align: center; white-space: nowrap; cursor: pointer; transition: background 0.15s ease, color 0.15s ease; }',
+      '.hero-motto-card .hero-motto-segment:hover:not(:disabled) { background: var(--dsw-alias-interactive-bg-hover); color: var(--dsw-alias-label-primary); }',
+      '.hero-motto-card .hero-motto-segment[aria-pressed="true"] { background: var(--hero-motto-accent, #5B7BFE); color: #fff; font-weight: 600; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); }',
+      '.hero-motto-card .hero-motto-segment[aria-pressed="true"]:hover:not(:disabled) { filter: brightness(1.1); color: #fff; }',
+      // Accent swatches: preset dots, a custom colour well, and a hex field.
+      '.hero-motto-card .hero-motto-swatches { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }',
+      '.hero-motto-card .hero-motto-swatch { position: relative; flex: none; width: 28px; height: 28px; padding: 0; border: 0.5px solid rgba(255, 255, 255, 0.22); border-radius: 50%; cursor: pointer; transition: transform 0.12s ease, box-shadow 0.12s ease; }',
+      '.hero-motto-card .hero-motto-swatch:hover:not(:disabled) { transform: scale(1.1); }',
+      '.hero-motto-card .hero-motto-swatch-active { box-shadow: 0 0 0 2px var(--dsw-alias-bg-layer-1, #1b1b1f), 0 0 0 3.5px currentColor; }',
+      '.hero-motto-card .hero-motto-swatch-custom { display: inline-flex; overflow: hidden; background: conic-gradient(from 0deg, #f43f5e, #f59e0b, #22c55e, #06b6d4, #5b7bfe, #8b5cf6, #f43f5e); }',
+      '.hero-motto-card .hero-motto-swatch-custom input[type="color"] { width: 200%; height: 200%; margin: -50%; padding: 0; border: none; background: transparent; opacity: 0; cursor: pointer; }',
+      '.hero-motto-card .hero-motto-stack { display: flex; flex-direction: column; gap: 10px; min-width: 0; }',
+      '.hero-motto-card .hero-motto-hex { flex: none !important; width: 120px; min-width: 120px; text-align: center; font-family: var(--ds-font-family-code, ui-monospace, monospace); letter-spacing: 0.02em; text-transform: uppercase; }',
+      // Switch: an explicit off/on pair, because the theme's layer tokens sit too
+      // close to the card background in a dark theme to read as a control.
+      '.hero-motto-card .hero-motto-switchRow { display: flex; align-items: center; justify-content: space-between; gap: 12px; cursor: pointer; }',
+      '.hero-motto-card .hero-motto-switchText { display: flex; flex-direction: column; gap: 2px; min-width: 0; }',
+      '.hero-motto-card .hero-motto-switch { position: relative; flex: none; width: 40px; height: 22px; }',
+      '.hero-motto-card .hero-motto-switch input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }',
+      // Off: a visible grey trough with a light knob, so the control reads even
+      // against a near-black card.
+      '.hero-motto-card .hero-motto-track { position: absolute; inset: 0; border-radius: 999px; background: rgba(140, 150, 170, 0.42); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14); transition: background 0.18s ease, box-shadow 0.18s ease; pointer-events: none; }',
+      '.hero-motto-card .hero-motto-knob { position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: #f2f4f8; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.45); transition: transform 0.18s cubic-bezier(0.3, 0.8, 0.4, 1), background 0.18s ease; pointer-events: none; }',
+      // On: brand trough, pure white knob, no inner ring needed.
+      '.hero-motto-card .hero-motto-switch input:checked ~ .hero-motto-track { background: var(--hero-motto-accent, #5B7BFE); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.22); }',
+      '.hero-motto-card .hero-motto-switch input:checked ~ .hero-motto-knob { transform: translateX(18px); background: #fff; }',
+      '.hero-motto-card .hero-motto-switch input:focus-visible ~ .hero-motto-track { outline: 2px solid var(--hero-motto-accent, #5B7BFE); outline-offset: 2px; }',
+      '.hero-motto-card .hero-motto-switch input:disabled ~ .hero-motto-track, .hero-motto-card .hero-motto-switch input:disabled ~ .hero-motto-knob { opacity: 0.45; cursor: not-allowed; }',
+      // Range: explicit colours so the track reads on a dark card too.
+      '.hero-motto-card .hero-motto-range { display: flex; align-items: center; gap: 12px; }',
+      '.hero-motto-card input[type="range"] { flex: 1; min-width: 0; height: 4px; margin: 0; border-radius: 999px; appearance: none; background: rgba(140, 150, 170, 0.42); cursor: pointer; }',
+      '.hero-motto-card input[type="range"]::-webkit-slider-thumb { appearance: none; width: 16px; height: 16px; border: none; border-radius: 50%; background: var(--hero-motto-accent, #5B7BFE); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.45); transition: transform 0.12s ease; }',
+      '.hero-motto-card input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.12); }',
+      '.hero-motto-card input[type="range"]::-moz-range-thumb { width: 16px; height: 16px; border: none; border-radius: 50%; background: var(--hero-motto-accent, #5B7BFE); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.45); }',
+      '.hero-motto-card input[type="range"]:disabled { opacity: 0.45; cursor: not-allowed; }',
+      '.hero-motto-card .hero-motto-value { flex: none; min-width: 54px; padding: 3px 8px; border-radius: 999px; background: rgba(140, 150, 170, 0.18); color: var(--dsw-alias-label-primary); font-size: 12px; line-height: 18px; text-align: center; font-variant-numeric: tabular-nums; }',
+      // Font select + picker row.
+      '.hero-motto-card select { flex: 1; min-width: 0; padding: 8px 12px; border: 0.5px solid var(--dsw-alias-border-l4); border-radius: 8px; background: var(--dsw-alias-bg-base); color: var(--dsw-alias-label-primary); font-size: 13px; line-height: 18px; outline: none; cursor: pointer; transition: border-color 0.15s ease; }',
+      '.hero-motto-card select:hover { border-color: var(--dsw-alias-border-l2); }',
+      '.hero-motto-card select:focus { border-color: var(--dsw-alias-brand-primary, var(--dsw-alias-border-l2)); }',
+      '.hero-motto-card .hero-motto-pick { display: inline-flex; }',
+      '.hero-motto-card .hero-motto-pickLabel { display: inline-flex; align-items: center; padding: 6px 12px; border: 0.5px dashed var(--dsw-alias-border-l4); border-radius: 8px; color: var(--dsw-alias-label-secondary); font-size: 12px; line-height: 18px; cursor: pointer; transition: background 0.15s ease, border-color 0.15s ease; }',
+      '.hero-motto-card .hero-motto-pickLabel:hover { background: var(--dsw-alias-interactive-bg-hover); border-color: var(--dsw-alias-border-l2); }',
+      // Loaded-font chips: pick on the left, remove on the right.
+      '.hero-motto-card .hero-motto-fontList { display: flex; flex-wrap: wrap; gap: 6px; }',
+      '.hero-motto-card .hero-motto-chip { display: inline-flex; align-items: stretch; border: 0.5px solid var(--dsw-alias-border-l4); border-radius: 999px; overflow: hidden; transition: border-color 0.15s ease; }',
+      '.hero-motto-card .hero-motto-chip:hover { border-color: var(--dsw-alias-border-l2); }',
+      '.hero-motto-card .hero-motto-chip-active { border-color: var(--dsw-alias-brand-primary, var(--dsw-alias-border-l2)); background: var(--dsw-alias-bg-layer-3, var(--dsw-alias-interactive-bg-hover)); }',
+      '.hero-motto-card .hero-motto-chipPick { border: none; border-radius: 0; padding: 4px 10px; max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--dsw-alias-label-secondary); }',
+      '.hero-motto-card .hero-motto-chipPick:hover:not(:disabled) { background: transparent; color: var(--dsw-alias-label-primary); }',
+      '.hero-motto-card .hero-motto-chipRemove { border: none; border-radius: 0; border-left: 0.5px solid var(--dsw-alias-border-l4); padding: 4px 8px; color: var(--dsw-alias-label-caption); }',
+      '.hero-motto-card .hero-motto-chipRemove:hover:not(:disabled) { background: transparent; color: var(--dsw-alias-state-error-primary, var(--dsw-alias-label-primary)); }',
+    ].join('\n');
+
+    // ---- Bundle-detail settings card. The Plugins page renders the
+    // `plugins.bundle.config` entry keyed by the package name on the bundle's
+    // own page (view: 'page'), with the page-owned ConfigForm in props.
+    const NULL_STORE = { getSnapshot: () => null, subscribe: () => () => {} };
+    function MottoCard(props) {
+      const t = copy();
+      const view = props && props.view;
+      const ownerForm = props && props.form;
+      // The settings controller for this entry, supplied by apply via inject.
+      const mottoForm = props && props.mottoForm;
+      if (view !== undefined && view !== 'page') return null;
+      // Keep the `this` receiver: ConfigFormController methods read `this.store`,
+      // so passing them to useSyncExternalStore bare would detach `this`.
+      const store = mottoForm
+        ? { subscribe: (listener) => mottoForm.subscribe(listener), getSnapshot: () => mottoForm.getSnapshot() }
+        : NULL_STORE;
+      const snapshot = useSyncExternalStore(store.subscribe, store.getSnapshot);
+      const effective = React.useMemo(() => computeEffective(snapshot), [snapshot]);
+      const writable = snapshot ? snapshot.writable !== false && snapshot.status !== 'unavailable' : false;
+
+      const [draftPhrases, setDraftPhrases] = React.useState(effective.phrases);
+      React.useEffect(() => { setDraftPhrases(effective.phrases); }, [effective.phrases]);
+      const userFontNames = useSyncExternalStore(userFontStore.subscribe, userFontStore.getSnapshot);
+      const [fontError, setFontError] = React.useState(false);
+      const [draftAccent, setDraftAccent] = React.useState(effective.accent);
+      React.useEffect(() => { setDraftAccent(effective.accent); }, [effective.accent]);
+      const pickFontFile = async (event) => {
+        const file = event.target.files && event.target.files[0];
+        event.target.value = '';
+        if (!file) return;
+        try {
+          const buffer = await file.arrayBuffer();
+          const name = fontNameFromFile(file.name);
+          await registerFontFace(name, buffer);
+          await putStoredFont(name, buffer);
+          publishUserFonts([...new Set([...userFonts.names, name])]);
+          setFontError(false);
+          commit('fontFamily', name);
+        } catch (error) {
+          console.warn('hero-motto: font file failed:', error);
+          setFontError(true);
+        }
+      };
+      const removeUserFont = async (name) => {
+        try {
+          await deleteStoredFont(name);
+          publishUserFonts(userFonts.names.filter((item) => item !== name));
+          if (effective.fontFamily === name) commit('fontFamily', '');
+        } catch (error) {
+          console.warn('hero-motto: font removal failed:', error);
+        }
+      };
+
+      // The slider is drag-driven: every change updates local state, and only a
+      // settled value is written. Writing per step would queue one settings RPC
+      // per pixel and make the drag crawl.
+      const [intervalDraft, setIntervalDraft] = React.useState(effective.intervalSeconds);
+      const intervalDraftRef = React.useRef(effective.intervalSeconds);
+      const intervalTimer = React.useRef(null);
+      const draggingRef = React.useRef(false);
+      React.useEffect(() => {
+        if (draggingRef.current) return;
+        intervalDraftRef.current = effective.intervalSeconds;
+        setIntervalDraft(effective.intervalSeconds);
+      }, [effective.intervalSeconds]);
+      React.useEffect(() => () => { if (intervalTimer.current) clearTimeout(intervalTimer.current); }, []);
+      const flushInterval = (value) => {
+        if (intervalTimer.current) {
+          clearTimeout(intervalTimer.current);
+          intervalTimer.current = null;
+        }
+        if (value !== effective.intervalSeconds) commit('intervalSeconds', value);
+      };
+      const scheduleInterval = (value) => {
+        intervalDraftRef.current = value;
+        setIntervalDraft(value);
+        if (!writable) return;
+        if (intervalTimer.current) clearTimeout(intervalTimer.current);
+        intervalTimer.current = setTimeout(() => {
+          intervalTimer.current = null;
+          if (value !== effective.intervalSeconds) commit('intervalSeconds', value);
+        }, 350);
+      };
+
+      // The colour well streams a value per pointer move: preview it locally and
+      // write only the settled colour, exactly like the interval slider.
+      const accentDraftRef = React.useRef(effective.accent);
+      const accentTimer = React.useRef(null);
+      const accentDraggingRef = React.useRef(false);
+      React.useEffect(() => {
+        if (accentDraggingRef.current) return;
+        accentDraftRef.current = effective.accent;
+        setDraftAccent(effective.accent);
+      }, [effective.accent]);
+      React.useEffect(() => () => { if (accentTimer.current) clearTimeout(accentTimer.current); }, []);
+      const flushAccent = () => {
+        if (accentTimer.current) {
+          clearTimeout(accentTimer.current);
+          accentTimer.current = null;
+        }
+        const clean = sanitizeAccent(accentDraftRef.current);
+        if (clean !== effective.accent) commit('accent', clean);
+      };
+      const scheduleAccent = (value) => {
+        accentDraftRef.current = value;
+        setDraftAccent(value);
+        if (!writable) return;
+        if (accentTimer.current) clearTimeout(accentTimer.current);
+        accentTimer.current = setTimeout(() => {
+          accentTimer.current = null;
+          if (value !== effective.accent) commit('accent', value);
+        }, 350);
+      };
+      // Preset swatches commit at once: a single click is already settled.
+      const pickAccent = (value) => {
+        accentDraftRef.current = value;
+        setDraftAccent(value);
+        if (value !== effective.accent) commit('accent', value);
+      };
+
+      const commit = (field, value) => {
+        if (!writable) return;
+        if (mottoForm) {
+          Promise.resolve(mottoForm.set(field, value)).catch((error) => {
+            console.warn('hero-motto: settings write failed:', error);
+          });
+          return;
+        }
+        // Fall back to the page-owned form's mutate when the local channel is absent.
+        if (ownerForm && typeof ownerForm.mutate === 'function') {
+          Promise.resolve(ownerForm.mutate([{ op: 'set', path: [field], value }])).catch((error) => {
+            console.warn('hero-motto: settings write failed:', error);
+          });
+        }
+      };
+
+      // One bordered group per concern: title, optional caption, then controls.
+      const group = (title, caption, children) => h('section', { className: 'hero-motto-group' },
+        h('div', { className: 'hero-motto-head' },
+          h('h4', { className: 'hero-motto-title' }, title),
+          caption ? h('p', { className: 'hero-motto-desc' }, caption) : null,
+        ),
+        children,
+      );
+      // Segmented control: replaces radio groups, reports the active segment.
+      const segments = (name, options, current, onPick) => h('div', {
+        className: 'hero-motto-segments', role: 'group', 'aria-label': name,
+      }, options.map((option) => h('button', {
+        key: option.value,
+        type: 'button',
+        className: 'hero-motto-segment',
+        'aria-pressed': current === option.value,
+        disabled: !writable,
+        onClick: () => onPick(option.value),
+      }, option.label)));
+
+      const editRow = (draft, setDraft, committed, field) => h('div', { className: 'hero-motto-rows' },
+        draft.map((phrase, i) => h('div', { className: 'hero-motto-phrase', key: i },
+          h('input', {
+            type: 'text',
+            value: phrase,
+            placeholder: t.phrasePlaceholder,
+            disabled: !writable,
+            onChange: (event) => {
+              const next = draft.slice();
+              next[i] = event.target.value;
+              setDraft(next);
+            },
+            onBlur: () => {
+              const trimmed = phrase.trim();
+              if (trimmed === '') return;
+              if (trimmed !== committed[i]) commit(field, draft.filter((p) => p.trim() !== ''));
+            },
+            onKeyDown: (event) => { if (event.key === 'Enter') event.target.blur(); },
+          }),
+          h('button', {
+            type: 'button',
+            className: 'hero-motto-remove',
+            disabled: !writable,
+            title: t.remove,
+            'aria-label': t.remove,
+            onClick: () => {
+              const next = draft.slice();
+              next.splice(i, 1);
+              setDraft(next);
+              commit(field, next.filter((p) => p.trim() !== ''));
+            },
+          }, '×'),
+        )),
+        h('button', {
+          type: 'button',
+          className: 'hero-motto-add',
+          disabled: !writable,
+          onClick: () => {
+            const next = draft.concat('');
+            setDraft(next);
+          },
+        }, '+ ' + t.add),
+      );
+
+      return h('div', {
+        className: 'hero-motto-card',
+        // The card's own controls follow the chosen accent too.
+        style: { '--hero-motto-accent': effective.accent },
+      },
+        h('style', null, STYLES),
+        group(t.phrases, t.phrasesHint,
+          h('div', { className: 'hero-motto-stack' },
+            editRow(draftPhrases, setDraftPhrases, effective.phrases, 'phrases'),
+            h('p', { className: 'hero-motto-note' }, t.highlightHint),
+          )),
+        group(t.interval, t.intervalHint, h('div', { className: 'hero-motto-range' },
+          h('input', {
+            type: 'range',
+            min: 2,
+            max: 120,
+            step: 1,
+            value: intervalDraft,
+            disabled: !writable,
+            onPointerDown: () => { draggingRef.current = true; },
+            onChange: (event) => scheduleInterval(Number(event.target.value)),
+            onPointerUp: () => { draggingRef.current = false; flushInterval(intervalDraftRef.current); },
+            onPointerCancel: () => { draggingRef.current = false; },
+            onBlur: () => { draggingRef.current = false; flushInterval(intervalDraftRef.current); },
+          }),
+          h('span', { className: 'hero-motto-value' }, t.intervalUnit(intervalDraft)),
+        )),
+        group(t.animation, t.animationHint,
+          segments('hero-motto-animation',
+            ANIMATIONS.map((mode) => ({ value: mode, label: t.animLabel[mode] })),
+            effective.animation,
+            (mode) => commit('animation', mode))),
+        group(t.align, t.alignHint,
+          segments('hero-motto-align',
+            ['left', 'center', 'right'].map((mode) => ({ value: mode, label: t.alignLabel[mode] })),
+            effective.align,
+            (mode) => commit('align', mode))),
+        group(t.font, t.fontHint, h('div', { className: 'hero-motto-stack' },
+          h('div', { className: 'hero-motto-row' },
+            h('select', {
+              value: effective.fontFamily,
+              disabled: !writable,
+              onChange: (event) => commit('fontFamily', event.target.value),
+            },
+              h('option', { value: '' }, t.fontDefault),
+              FONT_PRESETS.map((preset) => h('option', { key: preset.key, value: preset.value }, t.fontPreset[preset.key])),
+              userFontNames.length === 0 ? null : h('optgroup', { label: t.fontMyFonts },
+                userFontNames.map((name) => h('option', { key: name, value: name }, name))),
+            ),
+            h('label', { className: 'hero-motto-pick' },
+              h('input', {
+                type: 'file',
+                accept: '.ttf,.otf,.woff,.woff2',
+                disabled: !writable,
+                style: { display: 'none' },
+                onChange: (event) => { void pickFontFile(event); },
+              }),
+              h('span', { className: 'hero-motto-pickLabel' }, t.fontPick),
+            ),
+          ),
+          userFontNames.length === 0 ? null : h('div', { className: 'hero-motto-fontList' },
+            userFontNames.map((name) => {
+              const active = effective.fontFamily === name;
+              return h('span', { key: name, className: 'hero-motto-chip' + (active ? ' hero-motto-chip-active' : '') },
+                h('button', {
+                  type: 'button',
+                  className: 'hero-motto-chipPick',
+                  disabled: !writable,
+                  'aria-pressed': active,
+                  onClick: () => commit('fontFamily', name),
+                }, name),
+                h('button', {
+                  type: 'button',
+                  className: 'hero-motto-chipRemove',
+                  disabled: !writable,
+                  title: t.fontRemove(name),
+                  'aria-label': t.fontRemove(name),
+                  onClick: () => { void removeUserFont(name); },
+                }, '×'),
+              );
+            }),
+          ),
+          fontError ? h('p', { className: 'hero-motto-note' }, t.fontLoadFailed) : null,
+        )),
+        group(t.accent, t.accentHint, h('div', { className: 'hero-motto-stack' },
+          h('div', { className: 'hero-motto-swatches' },
+            ACCENT_PRESETS.map((preset) => h('button', {
+              key: preset,
+              type: 'button',
+              className: 'hero-motto-swatch' + (effective.accent === preset ? ' hero-motto-swatch-active' : ''),
+              style: { background: preset },
+              disabled: !writable,
+              'aria-pressed': effective.accent === preset,
+              'aria-label': preset,
+              title: preset,
+              onClick: () => pickAccent(preset),
+            })),
+            h('label', { className: 'hero-motto-swatch hero-motto-swatch-custom', title: t.accentPick },
+              h('input', {
+                type: 'color',
+                value: effective.accent,
+                disabled: !writable,
+                onPointerDown: () => { accentDraggingRef.current = true; },
+                onChange: (event) => scheduleAccent(event.target.value.toUpperCase()),
+                onPointerUp: () => { accentDraggingRef.current = false; flushAccent(); },
+                onPointerCancel: () => { accentDraggingRef.current = false; },
+                onBlur: () => { accentDraggingRef.current = false; flushAccent(); },
+              }),
+            ),
+          ),
+          h('div', { className: 'hero-motto-row' },
+            h('input', {
+              type: 'text',
+              className: 'hero-motto-hex',
+              value: draftAccent,
+              placeholder: '#5B7BFE',
+              spellCheck: false,
+              disabled: !writable,
+              onChange: (event) => scheduleAccent(event.target.value),
+              onBlur: () => {
+                const clean = sanitizeAccent(accentDraftRef.current);
+                setDraftAccent(clean);
+                flushAccent();
+              },
+              onKeyDown: (event) => { if (event.key === 'Enter') event.target.blur(); },
+            }),
+            h('span', { className: 'hero-motto-note' }, t.accentCodeHint),
+          ),
+        )),
+        group(t.display, null,
+          h('label', { className: 'hero-motto-switchRow' },
+            h('span', { className: 'hero-motto-switchText' },
+              h('span', null, t.previewBadge),
+              h('span', { className: 'hero-motto-note' }, t.previewBadgeHint),
+            ),
+            h('span', { className: 'hero-motto-switch' },
+              h('input', {
+                type: 'checkbox',
+                checked: effective.showPreviewBadge,
+                disabled: !writable,
+                onChange: (event) => commit('showPreviewBadge', event.target.checked),
+              }),
+              h('span', { className: 'hero-motto-track' }),
+              h('span', { className: 'hero-motto-knob' }),
+            ),
+          ),
+        ),
+        h('p', { className: 'hero-motto-note' }, writable ? t.hint : t.readonly),
+      );
+    }
+
+    // ---- Plugin module.
+    return {
+      inject: ['slots', 'configForms'],
+      apply(ctx) {
+        void restoreUserFonts();
+        let form = null;
+        try {
+          form = ctx.configForms.get(ENTRY_ID);
+        } catch (error) {
+          console.warn('hero-motto: settings channel unavailable:', error);
+        }
+        const EFFECTIVE_STORE = {
+          getSnapshot() {
+            if (!form) {
+              return computeEffective(null);
+            }
+            const snap = form.getSnapshot();
+            if (snap !== cachedSnap) {
+              cachedSnap = snap;
+              cachedEffective = computeEffective(snap);
+            }
+            return cachedEffective;
+          },
+          subscribe(listener) {
+            return form ? form.subscribe(listener) : () => {};
+          },
+        };
+
+        ctx.slots.inject('conversation.hero.brand.mark', () => ctx.slots.register({
+          name: 'conversation.hero.brand.mark',
+          id: 'hero-motto',
+          inject: () => ({ settings: EFFECTIVE_STORE }),
+        }, HeroMotto));
+
+        // The settings editor rides the bundle's own detail page: the Plugins
+        // page renders this keyed entry between the description and the rows.
+        ctx.slots.inject('plugins.bundle.config', () => ctx.slots.register({
+          name: 'plugins.bundle.config',
+          key: 'dsh-hero-motto',
+          inject: () => ({ mottoForm: form }),
+        }, MottoCard));
+      },
+    };
+  },
+});

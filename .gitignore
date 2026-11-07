@@ -1,0 +1,17 @@
+# Dependencies and local-only artifacts.
+#
+# `node_modules` is not shipped by this repository: the package installs from a
+# profile-linked directory whose `@deepseek-ai/schemastery` entry is a junction
+# into the local DSH profile. Committing it would leak a machine-specific path
+# and break every other clone.
+node_modules/
+
+# Editor and OS noise.
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Local logs and scratch files.
+*.log
