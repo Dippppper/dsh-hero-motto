@@ -2,34 +2,33 @@
 
 English | [中文](README.zh.md)
 
-Rotating DeepSeek-style mottos beside the whale on the **new-session** screen of
-[DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness), with a
-settings card on the plugin page.
+Rotating custom mottos beside the whale on the **new-session** screen of
+[DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness), configurable
+in detail from the plugin page.
 
 The shipped headline (`探索未至之境` / `Into the Unknown`) is replaced by a small
-pool of lines that rotate on a timer. It starts with just those two, so update it
-under **Plugins → New-session motto rotation** with your own lines. Everything
-below is configurable there.
+pool of lines that rotate on a timer. It starts with just those two, so customize
+it under **Plugins → New-session motto rotation**.
 
-![A Chinese motto rotating beside the whale on the new-session screen](docs/01-hero-zh.png)
+![New-session screen](docs/01-hero-zh.png)
 
-![An English motto with its bracketed word painted in the accent colour](docs/02-hero-highlight.png)
+![New-session screen](docs/02-hero-highlight.png)
 
-![The settings card: interval, animation, alignment, fonts, accent colour, and the preview-badge switch](docs/03-settings.png)
+![Settings card](docs/03-settings.png)
 
 ## Features
 
 | Feature | Notes |
 |---|---|
-| Phrase rotation | One mixed pool of Chinese and English lines; a shuffle bag visits every line once per cycle, so nothing repeats back to back. Ships with two lines and is meant to be filled in |
-| Animations | Float-in · blur swap · typewriter (erases from the tail, then grows from the head) · none |
-| Rotation interval | 2–120 seconds, drag the slider (writes on release) |
-| Fonts | Four built-in presets, a "back to default" entry, or upload your own `.ttf` / `.otf` / `.woff` / `.woff2` |
-| Alignment | Left · center · right, against the composer card |
-| Keyword emphasis | Wrap part of a line in `[brackets]` to paint it in the accent colour, e.g. `向[深处]再游一米` |
-| Accent colour | Six presets, a colour well, or a `#RGB` / `#RRGGBB` code |
+| Phrase rotation | A shuffle bag visits every line once per cycle, so nothing repeats back to back. |
+| Animations | Float-in  Blur swap  Typewriter |
+| Rotation interval | 2–120 seconds |
+| Fonts | Four built-in presets, or upload your own `.ttf` / `.otf` / `.woff` / `.woff2` |
+| Alignment | Left  Center  Right, against the composer card |
+| Keyword emphasis | Wrap part of a line in `[brackets]` to paint it in the accent colour |
+| Accent colour | Six presets and a colour well |
 | Preview badge | Keep or hide the pill beside the headline |
-| Whale | The official mark, unchanged; hovering still swims it |
+
 
 Text size stays the shipped 26px: this plugin swaps the typeface, never the scale.
 
@@ -67,16 +66,6 @@ directory from elsewhere, make sure `@deepseek-ai/schemastery` is resolvable fro
 this folder — the `.gitignore` deliberately keeps `node_modules/` out of the repo,
 because a local install usually points it at a machine-specific profile path.
 
-## Where settings live
-
-Every field is declared `.volatile()` on the Host `Config`, so values live in the
-profile's settings document for the `hero-motto` entry: they survive restarts and
-plugin upgrades, and edits apply without restarting the plugin.
-
-Uploaded fonts are different: their bytes live in the browser's IndexedDB
-(`hero-motto-fonts`) and their faces are re-registered on load. They are local to
-that browser — clearing site data removes them, and another machine needs the
-files again.
 
 ## Known fragility
 
