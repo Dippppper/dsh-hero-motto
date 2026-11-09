@@ -4,6 +4,15 @@
   "description": "Rotating DeepSeek-style mottos beside the new-session whale, with animations, fonts, alignment, keyword emphasis, and an accent colour. Ships a second component: the composer border marquee.",
   "type": "module",
   "keywords": ["dsh-plugin", "dsh-bundle", "deepseek-harness"],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dippppper/dsh-hero-motto.git"
+  },
+  "homepage": "https://github.com/Dippppper/dsh-hero-motto#readme",
+  "bugs": {
+    "url": "https://github.com/Dippppper/dsh-hero-motto/issues"
+  },
   "exports": {
     ".": "./index.js",
     "./client": "./client.js",
