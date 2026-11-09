@@ -13,19 +13,15 @@ export const LEGACY_PHRASES_ZH = ['探索未至之境'];
 export const LEGACY_PHRASES_EN = ['Into the [Unknown]'];
 
 /**
- * Rotation preferences. Every field is `.volatile()`: the values live in the
- * settings document for this entry, update in place without restarting the
+ * Rotation preferences for the ROOT component (`hero-motto`, the motto
+ * rotation beside the whale). Every field is `.volatile()`: the values live in
+ * the settings document for this entry, update in place without restarting the
  * plugin, and are editable from the browser card this bundle ships.
  *
- * `phrases` is the single pool. `phrasesZh`/`phrasesEn` remain declared so a
- * value stored before the merge still validates; the browser half folds them
- * into `phrases` on first read. `fade` likewise stays accepted until the
- * browser normalizes it to `float`.
- *
- * `fontFamily` only swaps the typeface: the size stays the shipped 26px.
- *
- * `showPreviewBadge` keeps or hides the shipped "Preview" pill beside the
- * headline; the headline text itself is always replaced by this bundle.
+ * The border-marquee fields moved to their own component in 2.1.1: the
+ * `hero-motto-marquee` subpath plugin (see `marquee/index.js`) owns the ring /
+ * glow / marquee / breathe / scope settings and can be toggled independently
+ * on the bundle page.
  */
 export const Config = z.object({
   phrases: z.array(z.string()).default(DEFAULT_PHRASES).volatile(),
@@ -37,6 +33,30 @@ export const Config = z.object({
   showPreviewBadge: z.boolean().default(true).volatile(),
   align: z.union(['left', 'center', 'right']).default('center').volatile(),
   accent: z.string().default('#5B7BFE').volatile(),
+
+  // ---- Legacy marquee fields (kept only so a pre-2.1.1 stored config that
+  // carries them still validates against this schema). The marquee component
+  // (marquee/index.js) owns the live copies now; nothing reads these.
+  paletteMode: z.union(['preset', 'custom']).default('preset').volatile(),
+  presetPalette: z.union(['rainbow', 'aurora', 'sunset', 'peach', 'ocean', 'cyber', 'brand']).default('rainbow').volatile(),
+  customPalettes: z.array(z.object({
+    id: z.string().default(''),
+    name: z.string().default(''),
+    colors: z.array(z.string()).default([]),
+  })).default([]).volatile(),
+  activeCustomId: z.string().default('').volatile(),
+  borderEnabled: z.boolean().default(true).volatile(),
+  glowEnabled: z.boolean().default(true).volatile(),
+  glowIntensity: z.number().min(0).max(100).default(60).volatile(),
+  brightness: z.number().min(0).max(200).default(100).volatile(),
+  marqueeEnabled: z.boolean().default(true).volatile(),
+  marqueeFlow: z.number().min(1).max(10).default(4).volatile(),
+  breatheEnabled: z.boolean().default(false).volatile(),
+  breathePerMin: z.number().min(10).max(60).default(24).volatile(),
+  ringWidthPx: z.number().min(1).max(6).default(3).volatile(),
+  scopeNewSession: z.boolean().default(true).volatile(),
+  scopeChat: z.boolean().default(true).volatile(),
+  focusOnly: z.boolean().default(false).volatile(),
 });
 
 /** Register the settings-surface policy: this bundle ships its own card. */
