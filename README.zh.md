@@ -102,7 +102,7 @@ Host 半侧会立刻激活，但浏览器模块每个页面只加载一次。安
 | `motto/index.js` | Host 半侧（`hero-motto` 组件）：主界面标语自定义文本轮换的 `Config` schema 与设置策略 |
 | `marquee/index.js` | Host 半侧（`hero-motto-marquee` 组件）：边框跑马灯的 `Config` schema |
 | `client.js` | 浏览器半侧：hero 品牌位占用者、短句逻辑、边框跑马灯运行时与重挂、两张设置卡片 |
-| `cordis.patch.yml` | bundle patch：插入 `hero-motto` 与 `hero-motto-marquee` 两个组件行 |
+| `cordis.patch.yml` | bundle patch：插入核心行与两个组件行，共三行 |
 | `locale/*.json` | 核心行、格言组件与跑马灯组件各自的标题与描述 |
 | `icon.png` | 插件图标（两个组件共用） |
 
@@ -116,6 +116,8 @@ Host 半侧会立刻激活，但浏览器模块每个页面只加载一次。安
 
 两个功能组件的设置各自独立存储，可分别开关互不影响；条目 id 与 2.1.x 相同，升级后已保存的设置直接沿用。
 在插件页切换组件开关后按 Ctrl+R 刷新页面生效。
+
+![插件页里的设置卡片](docs/03-settings.png)
 
 ## 许可证
 

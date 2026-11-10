@@ -110,7 +110,7 @@ host classes).
 | `motto/index.js` | Host half (`hero-motto` component): the `Config` schema and settings policy for the custom-text main-headline rotation |
 | `marquee/index.js` | Host half (`hero-motto-marquee` component): the border-marquee `Config` schema |
 | `client.js` | Browser half: the hero mark occupant, the mottos, the border-marquee runtime/remount, and both settings cards |
-| `cordis.patch.yml` | The bundle patch inserting the `hero-motto` and `hero-motto-marquee` component rows |
+| `cordis.patch.yml` | The bundle patch inserting the core row plus the two component rows |
 | `locale/*.json` | Titles and descriptions for the core row and both feature components |
 | `icon.png` | Plugin icon (shared by both components) |
 
@@ -127,6 +127,8 @@ The two feature components keep their own settings storage and toggle
 independently of each other; the entry ids are unchanged from 2.1.x, so saved
 settings carry over. After toggling a component switch on the plugin page,
 press Ctrl+R to apply it in the page.
+
+![The settings cards on the plugin page](docs/03-settings.png)
 
 ## Licence
 
