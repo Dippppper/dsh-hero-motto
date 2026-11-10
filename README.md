@@ -128,8 +128,6 @@ independently of each other; the entry ids are unchanged from 2.1.x, so saved
 settings carry over. After toggling a component switch on the plugin page,
 press Ctrl+R to apply it in the page.
 
-![The settings cards on the plugin page](docs/03-settings.png)
-
 ## Licence
 
 MIT — see [LICENSE](LICENSE).
