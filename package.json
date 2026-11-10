@@ -1,6 +1,6 @@
 {
   "name": "dsh-hero-motto",
-  "version": "2.1.2",
+  "version": "2.2.0",
   "description": "Rotating DeepSeek-style mottos beside the new-session whale, with animations, fonts, alignment, keyword emphasis, and an accent colour. Ships a second component: the composer border marquee.",
   "type": "module",
   "keywords": ["dsh-plugin", "dsh-bundle", "deepseek-harness"],
@@ -16,13 +16,16 @@
   "exports": {
     ".": "./index.js",
     "./client": "./client.js",
+    "./motto": "./motto/index.js",
+    "./motto/icon": "./icon.png",
+    "./motto/locale/*.json": "./locale/motto/*.json",
     "./marquee": "./marquee/index.js",
     "./marquee/icon": "./icon.png",
     "./marquee/locale/*.json": "./locale/marquee/*.json",
     "./locale/*.json": "./locale/*.json",
     "./icon": "./icon.png"
   },
-  "files": ["index.js", "client.js", "marquee/*.js", "cordis.patch.yml", "locale/*.json", "locale/marquee/*.json", "icon.png", "docs/*.png", "docs/*.webp", "README.md", "README.zh.md", "LICENSE"],
+  "files": ["index.js", "client.js", "motto/*.js", "marquee/*.js", "cordis.patch.yml", "locale/*.json", "locale/motto/*.json", "locale/marquee/*.json", "icon.png", "docs/*.png", "docs/*.webp", "README.md", "README.zh.md", "LICENSE"],
   "dependencies": {
     "@deepseek-ai/schemastery": "~3.19.0"
   },

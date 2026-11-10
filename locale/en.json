@@ -1,1 +1,1 @@
-{ "meta": { "title": "Hero motto rotation", "description": "Shows a random DeepSeek-style motto beside the whale on the new-session screen and rotates it over time." } }
+{ "meta": { "title": "Core runtime", "description": "Carries the browser half shared by both components (settings cards and the marquee runtime). Keep it enabled; turning it off disables every piece of UI this bundle renders." } }

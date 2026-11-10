@@ -1,11 +1,10 @@
-# dsh-hero-motto bundle patch: two independent components in one bundle.
-# - hero-motto         -> package root (index.js): the hero motto rotation.
-# - hero-motto-marquee -> subpath plugin (marquee/index.js): the composer
-#                         border marquee (ring/glow/marquee/breathe/scope).
-# Each row enables/disables independently on the bundle page and keeps its own
-# Config storage; the browser half (client.js) branches on which forms exist.
+# Three rows: the core (package root) carries the shared browser half; the two
+# feature components are subpath rows and can each be toggled independently.
+# The core row must stay enabled for any of the bundle's UI to exist.
 - insert:
-    - id: hero-motto
+    - id: hero-motto-core
       name: 'dsh-hero-motto'
+    - id: hero-motto
+      name: 'dsh-hero-motto/motto'
     - id: hero-motto-marquee
       name: 'dsh-hero-motto/marquee'

@@ -51,12 +51,14 @@ bundle 从目录安装：
 plugin_manager install_bundle target=<本仓库的绝对路径>
 ```
 
-或者用 CLI，把这两行加进你的 profile patch（两个组件各一行）：
+或者用 CLI，把这三行加进你的 profile patch（核心行 + 两个组件各一行）：
 
 ```yaml
 - insert:
-    - id: hero-motto
+    - id: hero-motto-core
       name: 'dsh-hero-motto'
+    - id: hero-motto
+      name: 'dsh-hero-motto/motto'
     - id: hero-motto-marquee
       name: 'dsh-hero-motto/marquee'
 ```
@@ -96,21 +98,23 @@ Host 半侧会立刻激活，但浏览器模块每个页面只加载一次。安
 
 | 文件 | 作用 |
 |---|---|
-| `index.js` | Host 半侧（`hero-motto` 组件）：主界面标语自定义文本轮换的 `Config` schema 与设置策略 |
+| `index.js` | Host 半侧（`hero-motto-core` 核心行）：无配置，仅承载共享浏览器半侧的包根插件 |
+| `motto/index.js` | Host 半侧（`hero-motto` 组件）：主界面标语自定义文本轮换的 `Config` schema 与设置策略 |
 | `marquee/index.js` | Host 半侧（`hero-motto-marquee` 组件）：边框跑马灯的 `Config` schema |
 | `client.js` | 浏览器半侧：hero 品牌位占用者、短句逻辑、边框跑马灯运行时与重挂、两张设置卡片 |
 | `cordis.patch.yml` | bundle patch：插入 `hero-motto` 与 `hero-motto-marquee` 两个组件行 |
-| `locale/*.json` | 根组件与跑马灯组件各自的标题与描述 |
+| `locale/*.json` | 核心行、格言组件与跑马灯组件各自的标题与描述 |
 | `icon.png` | 插件图标（两个组件共用） |
 
 ## 组件
 
-2.1.1 起 bundle 含两个可独立启停的组件（插件页「包含的组件」各有一行开关）：
+2.2.0 起 bundle 含三行（插件页「包含的组件」各有一行开关）：
 
+- **核心运行时**（`hero-motto-core`）：承载两个组件共享的浏览器界面。保持启用；关闭它等于停用整个插件的全部界面效果（总开关）。
 - **新会话短语轮换**（`hero-motto`）：把主界面标语换成自定义文本并轮换，含全部显示设置；
 - **边框跑马灯**（`hero-motto-marquee`）：输入框彩色边框、辉光、呼吸与作用范围。
 
-两个组件的设置各自独立存储；从 2.1.0 升级后，跑马灯设置会回到默认值，需要重新设置一次。
+两个功能组件的设置各自独立存储，可分别开关互不影响；条目 id 与 2.1.x 相同，升级后已保存的设置直接沿用。
 在插件页切换组件开关后按 Ctrl+R 刷新页面生效。
 
 ## 许可证

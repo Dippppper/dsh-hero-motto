@@ -54,12 +54,14 @@ A bundle installs from a directory:
 plugin_manager install_bundle target=<absolute path to this checkout>
 ```
 
-or, with the CLI, add both rows to your profile patch (one per component):
+or, with the CLI, add all three rows to your profile patch (the core row plus one per component):
 
 ```yaml
 - insert:
-    - id: hero-motto
+    - id: hero-motto-core
       name: 'dsh-hero-motto'
+    - id: hero-motto
+      name: 'dsh-hero-motto/motto'
     - id: hero-motto-marquee
       name: 'dsh-hero-motto/marquee'
 ```
@@ -104,24 +106,27 @@ host classes).
 
 | File | Role |
 |---|---|
-| `index.js` | Host half (`hero-motto` component): the `Config` schema and settings policy for the custom-text main-headline rotation |
+| `index.js` | Host half (`hero-motto-core` core row): config-less package-root plugin that carries the shared browser half |
+| `motto/index.js` | Host half (`hero-motto` component): the `Config` schema and settings policy for the custom-text main-headline rotation |
 | `marquee/index.js` | Host half (`hero-motto-marquee` component): the border-marquee `Config` schema |
 | `client.js` | Browser half: the hero mark occupant, the mottos, the border-marquee runtime/remount, and both settings cards |
 | `cordis.patch.yml` | The bundle patch inserting the `hero-motto` and `hero-motto-marquee` component rows |
-| `locale/*.json` | Titles and descriptions for the root and marquee components |
+| `locale/*.json` | Titles and descriptions for the core row and both feature components |
 | `icon.png` | Plugin icon (shared by both components) |
 
 ## Components
 
-Since 2.1.1 the bundle ships two independently toggleable components (one row
-each under the bundle page's "included components"):
+Since 2.2.0 the bundle ships three rows (one switch each under the bundle
+page's "included components"):
 
+- **Core runtime** (`hero-motto-core`): carries the browser half shared by both components. Keep it enabled; turning it off disables every piece of UI this bundle renders (the master switch).
 - **New-session motto rotation** (`hero-motto`): replaces the main headline with rotating custom text, plus all display settings;
 - **Border marquee** (`hero-motto-marquee`): the composer colour border, glow, breathing, and scope.
 
-Each component keeps its own settings storage; upgrading from 2.1.0 resets the
-marquee settings to their defaults once. After toggling a component switch on
-the plugin page, press Ctrl+R to apply it in the page.
+The two feature components keep their own settings storage and toggle
+independently of each other; the entry ids are unchanged from 2.1.x, so saved
+settings carry over. After toggling a component switch on the plugin page,
+press Ctrl+R to apply it in the page.
 
 ## Licence
 
