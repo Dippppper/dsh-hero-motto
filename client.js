@@ -1,7 +1,7 @@
 window.__ModuleLoader__.load({
   id: 'dsh-hero-motto',
   factory(require) {
-    console.info('[hero-motto] client v2.1.1 loaded');
+    console.info('[hero-motto] client v2.1.2 loaded');
     const React = require('react');
     const h = React.createElement;
     const useSyncExternalStore = React.useSyncExternalStore || React.unstable_useSyncExternalStore;
@@ -500,9 +500,10 @@ window.__ModuleLoader__.load({
     function HeroMotto(props) {
       const store = (props && props.settings) || NULL_STORE;
       const settings = useSyncExternalStore(store.subscribe, store.getSnapshot);
-      // 2.1.1: when the motto component row is disabled, the store reports
-      // alive:false and the hero mark renders nothing at all.
-      if (settings.alive === false) return null;
+      // NOTE: the alive check intentionally lives AFTER every hook (right
+      // before the render). Early-returning here would change the hook count
+      // across renders and crash the whole tree ("Rendered fewer hooks than
+      // expected") the moment the row's availability flips mid-session.
       const animation = reducedMotion() ? 'none' : settings.animation;
       const settingsRef = React.useRef(settings);
       settingsRef.current = settings;
@@ -645,6 +646,10 @@ window.__ModuleLoader__.load({
         return undefined;
       }, [animation]);
 
+      // 2.1.1: when the motto component row is disabled, the store reports
+      // alive:false and the hero mark renders nothing at all. Effects keep
+      // running so the heroMounted view signal stays correct either way.
+      if (settings.alive === false) return null;
       const list = settings.phrases;
       const safeIndex = Math.min(index, list.length - 1);
       const text = list[safeIndex] || '';
@@ -991,22 +996,27 @@ window.__ModuleLoader__.load({
       }
     }
 
-    // 2.1.1: the marquee is its own bundle row. When that row is disabled its
-    // form reports unavailable (or disappears entirely) and every layer comes
-    // off the cards until it is enabled again.
-    function marqueeAliveNow() {
-      if (!liveMottoForm) return false;
+    // 2.1.1: the marquee is its own bundle row. Three states on purpose: a
+    // null snapshot means the settings mirror has not answered yet — neither
+    // draw nor remove (drawing would flash defaults on a dead row; removing
+    // would strip live layers during a composition transition). Only an
+    // explicit 'unavailable' is proof the row is disabled.
+    function marqueeAliveState() {
+      if (!liveMottoForm) return 'dead';
       try {
         const snap = liveMottoForm.getSnapshot();
-        return !!(snap && snap.status !== 'unavailable');
+        if (!snap) return 'unknown';
+        return snap.status === 'unavailable' ? 'dead' : 'alive';
       } catch (error) {
-        return false;
+        return 'unknown';
       }
     }
 
     function scanComposerCards() {
       if (typeof document === 'undefined') return;
-      if (!marqueeAliveNow()) {
+      const alive = marqueeAliveState();
+      if (alive === 'unknown') return;
+      if (alive === 'dead') {
         document.querySelectorAll('[data-composer-card]').forEach((card) => removeMottoLayers(card));
         return;
       }
@@ -1117,8 +1127,9 @@ window.__ModuleLoader__.load({
       const snapshot = useSyncExternalStore(store.subscribe, store.getSnapshot);
       const effective = React.useMemo(() => computeEffective(snapshot), [snapshot]);
       // 2.1.1 component split: hide this card entirely when the motto row is
-      // disabled (entry unavailable) or its form channel is absent.
-      if (effective.alive === false) return null;
+      // disabled (entry unavailable) or its form channel is absent. The check
+      // lives at the render tail — early-returning before the hooks below
+      // would crash the tree on an availability flip.
       const writable = snapshot ? snapshot.writable !== false : false;
 
       const [draftPhrases, setDraftPhrases] = React.useState(effective.phrases);
@@ -1309,6 +1320,7 @@ window.__ModuleLoader__.load({
         }, '+ ' + t.add),
       );
 
+      if (effective.alive === false) return null;
       return h('div', {
         className: 'hero-motto-card',
         // The card's own controls follow the chosen accent too.
@@ -1469,7 +1481,9 @@ window.__ModuleLoader__.load({
         : NULL_STORE;
       const snapshot = useSyncExternalStore(store.subscribe, store.getSnapshot);
       const effective = React.useMemo(() => computeEffective(snapshot), [snapshot]);
-      if (effective.alive === false) return null;
+      // Hide while the row is disabled — but the check lives at the render
+      // tail (see MottoCard): early-returning before the hooks below would
+      // crash the tree on an availability flip.
       const writable = snapshot ? snapshot.writable !== false : false;
 
       const commit = (field, value) => {
@@ -1670,6 +1684,7 @@ window.__ModuleLoader__.load({
       );
 
 
+      if (effective.alive === false) return null;
       return h('div', {
         className: 'hero-motto-card',
         style: { '--hero-motto-accent': effective.accent },
@@ -1702,8 +1717,10 @@ window.__ModuleLoader__.load({
         } catch (error) {
           console.warn('hero-motto: settings channel unavailable:', error);
         }
-        // 2.1.1 component split: the marquee row has its own form. It is null
-        // when that row is disabled or the channel is unavailable.
+        // 2.1.1 component split: the marquee row has its own form. get() never
+        // throws for a disabled row — the form exists and its snapshot reports
+        // 'unavailable' (or null while the mirror has not answered); form is
+        // null only when the configForms service itself is absent.
         let marqueeForm = null;
         try {
           marqueeForm = ctx.configForms.get(MARQUEE_ENTRY_ID);
@@ -1736,8 +1753,9 @@ window.__ModuleLoader__.load({
         scanComposerCards();
         startMottoObservers();
 
-        // Register the hero mark only while the motto component exists: a
-        // disabled row must not occupy the slot.
+        // form is null only when the configForms service itself is absent; a
+        // disabled row keeps its form, and HeroMotto renders null via alive
+        // while its effects keep the heroMounted view signal correct.
         if (form) {
           ctx.slots.inject('conversation.hero.brand.mark', () => ctx.slots.register({
             name: 'conversation.hero.brand.mark',
