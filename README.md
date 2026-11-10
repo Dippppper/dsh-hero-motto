@@ -3,13 +3,14 @@
 English | [中文](README.zh.md)
 
 A two-component plugin for [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness):
-it rotates custom mottos beside the whale on the **new-session** screen and draws
-a flowing, breathing colour border around the composer card. Everything is
-configured from the bundle's detail card on the plugin page.
+it replaces the **main headline** (the title beside the whale on the new-session
+screen) with a rotating pool of **custom text** lines, and draws a flowing,
+breathing colour border around the composer card. Everything is configured from
+the bundle's detail card on the plugin page.
 
-The shipped headline (`探索未至之境` / `Into the Unknown`) is replaced by a small
-pool of lines that rotate on a timer. It starts with just those two, so customize
-it under **Plugins → New-session motto rotation**.
+The shipped main headline (`探索未至之境` / `Into the Unknown`) is replaced by your
+own custom text that rotates on a timer. It starts with just those two, so add,
+edit or remove the lines under **Plugins → New-session motto rotation**.
 
 ![New-session screen](docs/01-hero-zh.png)
 
@@ -17,11 +18,11 @@ it under **Plugins → New-session motto rotation**.
 
 ## Features
 
-**Component 1: hero motto rotation** (`hero-motto`)
+**Component 1: main headline · custom text rotation** (`hero-motto`)
 
 | Feature | Notes |
 |---|---|
-| Phrase rotation | A shuffle bag visits every line once per cycle, so nothing repeats back to back. |
+| Custom text rotation | A shuffle bag visits every custom line once per cycle, so nothing repeats back to back. |
 | Animations | Float-in  Blur swap  Typewriter |
 | Rotation interval | 2–120 seconds |
 | Fonts | Four built-in presets, or upload your own `.ttf` / `.otf` / `.woff` / `.woff2` |
@@ -103,7 +104,7 @@ host classes).
 
 | File | Role |
 |---|---|
-| `index.js` | Host half (`hero-motto` component): the motto rotation `Config` schema and settings policy |
+| `index.js` | Host half (`hero-motto` component): the `Config` schema and settings policy for the custom-text main-headline rotation |
 | `marquee/index.js` | Host half (`hero-motto-marquee` component): the border-marquee `Config` schema |
 | `client.js` | Browser half: the hero mark occupant, the mottos, the border-marquee runtime/remount, and both settings cards |
 | `cordis.patch.yml` | The bundle patch inserting the `hero-motto` and `hero-motto-marquee` component rows |
@@ -115,7 +116,7 @@ host classes).
 Since 2.1.1 the bundle ships two independently toggleable components (one row
 each under the bundle page's "included components"):
 
-- **New-session motto rotation** (`hero-motto`): the rotating phrases beside the whale and all display settings;
+- **New-session motto rotation** (`hero-motto`): replaces the main headline with rotating custom text, plus all display settings;
 - **Border marquee** (`hero-motto-marquee`): the composer colour border, glow, breathing, and scope.
 
 Each component keeps its own settings storage; upgrading from 2.1.0 resets the
