@@ -1,7 +1,7 @@
 window.__ModuleLoader__.load({
   id: 'dsh-hero-motto',
   factory(require) {
-    console.info('[hero-motto] client v2.2.0 loaded');
+    console.info('[hero-motto] client v2.2.1 loaded');
     const React = require('react');
     const h = React.createElement;
     const useSyncExternalStore = React.useSyncExternalStore || React.unstable_useSyncExternalStore;
@@ -63,7 +63,7 @@ window.__ModuleLoader__.load({
         align: '对齐方式',
         alignLabel: { left: '左对齐', center: '居中', right: '右对齐' },
         hint: '修改即时生效；新会话界面正开着的话，下一句就会按新设置轮换。',
-        highlightHint: '用 [方括号] 包住的部分会高亮显示，例如：向[深处]再游一米',
+        highlightHint: '[]内字符将以主题色显示',
         // ---- 边框跑马灯 (2.1.0) ----
         presetLabels: { rainbow: '经典彩虹', aurora: '极光', sunset: '日落', peach: '蜜桃', ocean: '海洋', cyber: '赛博霓虹', brand: '品牌蓝' },
         color: '颜色',
@@ -149,7 +149,7 @@ window.__ModuleLoader__.load({
         align: 'Alignment',
         alignLabel: { left: 'Left', center: 'Center', right: 'Right' },
         hint: 'Changes apply immediately; an open new-session view picks them up on the next rotation.',
-        highlightHint: 'Wrap part of a phrase in [brackets] to emphasize it, e.g. One more [meter] down',
+        highlightHint: 'Text inside [] is shown in the accent colour.',
         // ---- Border marquee (2.1.0) ----
         presetLabels: { rainbow: 'Rainbow', aurora: 'Aurora', sunset: 'Sunset', peach: 'Peach', ocean: 'Ocean', cyber: 'Cyber', brand: 'Brand blue' },
         color: 'Colour',
@@ -1330,7 +1330,8 @@ window.__ModuleLoader__.load({
         section(t.mottoSection),
         group(t.phrases, t.phrasesHint,
           h('div', { className: 'hero-motto-stack' },
-            editRow(draftPhrases, setDraftPhrases, effective.phrases, 'phrases'))),
+            editRow(draftPhrases, setDraftPhrases, effective.phrases, 'phrases')),
+          h('p', { className: 'hero-motto-note' }, t.highlightHint)),
         group(t.interval, t.intervalHint, h('div', { className: 'hero-motto-range' },
           h('input', {
             type: 'range',
