@@ -1,7 +1,7 @@
 window.__ModuleLoader__.load({
   id: 'dsh-hero-motto',
   factory(require) {
-    console.info('[hero-motto] client v2.2.1 loaded');
+    console.info('[hero-motto] client v2.2.2 loaded');
     const React = require('react');
     const h = React.createElement;
     const useSyncExternalStore = React.useSyncExternalStore || React.unstable_useSyncExternalStore;
@@ -48,26 +48,16 @@ window.__ModuleLoader__.load({
         fontRemove: (name) => '删除字体 ' + name,
         fontLoadFailed: '字体文件读取失败，换个文件试试',
         previewBadge: '保留「预览版」徽标',
-        previewBadgeHint: '关闭后标题旁的小胶囊不再显示',
         display: '显示',
         accent: '主题色',
-        accentHint: '用于关键词高亮等强调处',
-        accentCodeHint: '输入 #RGB 或 #RRGGBB 后回车',
         accentPick: '自定义颜色',
         phrasePlaceholder: '写一句想在新会话界面看到的话',
-        phrasesHint: '每次进入新会话界面随机抽一句，一轮内不重复',
-        intervalHint: '停在这句多久之后换下一句',
-        animationHint: '切换时的过渡效果',
-        alignHint: '鲸鱼和短句相对输入框的位置',
-        fontHint: '内置预设，或上传自己的字体文件',
         align: '对齐方式',
         alignLabel: { left: '左对齐', center: '居中', right: '右对齐' },
-        hint: '修改即时生效；新会话界面正开着的话，下一句就会按新设置轮换。',
         highlightHint: '[]内字符将以主题色显示',
         // ---- 边框跑马灯 (2.1.0) ----
         presetLabels: { rainbow: '经典彩虹', aurora: '极光', sunset: '日落', peach: '蜜桃', ocean: '海洋', cyber: '赛博霓虹', brand: '品牌蓝' },
         color: '颜色',
-        colorHint: '边框跑马灯使用的色标：内置预设，或自建色组库。',
         paletteSource: '色标来源',
         preset: '预设',
         custom: '自定义',
@@ -83,13 +73,10 @@ window.__ModuleLoader__.load({
         minColors: '每组至少 2 个颜色',
         maxColors: '最多 12 个',
         effect: '效果',
-        effectHint: '逐个开关灯带 / 辉光 / 跑马灯 / 呼吸。',
         border: '灯带',
-        borderHint: '彩色边框环，可调环宽。',
         ringWidth: '环宽',
         ringWidthUnit: (n) => n + ' px',
         glow: '辉光',
-        glowHint: '仅输入框外侧的彩色阴影，内部无效果。',
         glowIntensity: '弥散程度',
         glowIntensityUnit: (n) => n + '%',
         marquee: '跑马灯',
@@ -97,15 +84,11 @@ window.__ModuleLoader__.load({
         flow: '流速',
         flowUnit: (n) => n + ' 秒/圈',
         breathe: '呼吸',
-        breatheHint: '整体明暗脉动。',
         breatheRate: '频次',
         breatheRateUnit: (n) => n + ' 次/分',
         scope: '生效范围',
-        scopeHint: '选择哪些界面显示边框跑马灯；两个都关则停用，但保留设置。',
         scopeNs: '新会话界面',
-        scopeNsHint: '首页鲸鱼旁的输入框。',
         scopeChat: '对话页',
-        scopeChatHint: '会话内的输入框。',
         brandGroup: '品牌蓝',
         save: '保存',
         cancel: '取消',
@@ -114,7 +97,6 @@ window.__ModuleLoader__.load({
         brightness: '亮度',
         brightnessUnit: (n) => n + '%',
         focusOnly: '仅输入框选中时生效',
-        focusOnlyHint: '开启后，只有点击/聚焦输入框时才显示跑马灯与辉光。',
         readonly: '设置通道暂不可写，当前展示默认值。',
       },
       en: {
@@ -134,26 +116,16 @@ window.__ModuleLoader__.load({
         fontRemove: (name) => 'Remove font ' + name,
         fontLoadFailed: 'Could not read that font file; try another one',
         previewBadge: 'Keep the "Preview" badge',
-        previewBadgeHint: 'Hides that pill beside the headline',
         display: 'Display',
         accent: 'Accent colour',
-        accentHint: 'Used for keyword emphasis',
-        accentCodeHint: 'Type #RGB or #RRGGBB, then Enter',
         accentPick: 'Custom colour',
         phrasePlaceholder: 'Write a line to show on the new-session screen',
-        phrasesHint: 'Picked at random, each line once per cycle',
-        intervalHint: 'How long a line stays before the next one',
-        animationHint: 'How one line hands over to the next',
-        alignHint: 'Where the whale and line sit against the composer',
-        fontHint: 'A built-in preset, or a font file of your own',
         align: 'Alignment',
         alignLabel: { left: 'Left', center: 'Center', right: 'Right' },
-        hint: 'Changes apply immediately; an open new-session view picks them up on the next rotation.',
         highlightHint: 'Text inside [] is shown in the accent colour.',
         // ---- Border marquee (2.1.0) ----
         presetLabels: { rainbow: 'Rainbow', aurora: 'Aurora', sunset: 'Sunset', peach: 'Peach', ocean: 'Ocean', cyber: 'Cyber', brand: 'Brand blue' },
         color: 'Colour',
-        colorHint: 'Stops for the border marquee: a built-in preset or your own saved groups.',
         paletteSource: 'Source',
         preset: 'Preset',
         custom: 'Custom',
@@ -169,13 +141,10 @@ window.__ModuleLoader__.load({
         minColors: 'At least 2 colours per group',
         maxColors: 'Up to 12',
         effect: 'Effects',
-        effectHint: 'Toggle the band / glow / marquee / breathing individually.',
         border: 'Band',
-        borderHint: 'Coloured border ring; width is adjustable.',
         ringWidth: 'Width',
         ringWidthUnit: (n) => n + ' px',
         glow: 'Glow',
-        glowHint: 'A coloured shadow outside the composer only; nothing inside.',
         glowIntensity: 'Spread',
         glowIntensityUnit: (n) => n + '%',
         marquee: 'Marquee',
@@ -183,15 +152,11 @@ window.__ModuleLoader__.load({
         flow: 'Speed',
         flowUnit: (n) => n + ' s / turn',
         breathe: 'Breathe',
-        breatheHint: 'Overall brightness pulse.',
         breatheRate: 'Rate',
         breatheRateUnit: (n) => n + ' / min',
         scope: 'Scope',
-        scopeHint: 'Choose which surfaces show the marquee; both off disables it but keeps settings.',
         scopeNs: 'New-session view',
-        scopeNsHint: 'The composer beside the whale on the home screen.',
         scopeChat: 'Chat page',
-        scopeChatHint: 'The composer inside a conversation.',
         brandGroup: 'Brand blue',
         save: 'Save',
         cancel: 'Cancel',
@@ -200,7 +165,6 @@ window.__ModuleLoader__.load({
         brightness: 'Brightness',
         brightnessUnit: (n) => n + '%',
         focusOnly: 'Only when the composer is focused',
-        focusOnlyHint: 'When on, the marquee and glow appear only while the composer has focus.',
         readonly: 'The settings channel is read-only right now; defaults are shown.',
       },
     };
@@ -235,11 +199,6 @@ window.__ModuleLoader__.load({
       if (/^#?[0-9a-f]{3}$/i.test(hex)) return '#' + hex.replace('#', '').split('').map((c) => c + c).join('');
       if (/^#?[0-9a-f]{6}$/i.test(hex)) return '#' + hex.replace('#', '').toUpperCase();
       return ACCENT_PRESETS[0];
-    }
-    // #RRGGBB -> "r, g, b", for the translucent variants the card uses.
-    function accentRgb(hex) {
-      const clean = sanitizeAccent(hex).slice(1);
-      return [0, 2, 4].map((i) => parseInt(clean.slice(i, i + 2), 16)).join(', ');
     }
     // ---- Border-marquee palettes. Six built-in presets, each 2–12 hex stops.
     // The "follow theme" source is intentionally NOT here: it degrades to a
@@ -449,10 +408,11 @@ window.__ModuleLoader__.load({
         scopeNewSession: value.scopeNewSession !== false,
         scopeChat: value.scopeChat !== false,
         focusOnly: value.focusOnly === true,
-        // 2.1.1 component split: `alive` is false when this component's row is
-        // disabled on the bundle page (the entry reports unavailable) or when
-        // the form channel is absent entirely. UI for that component hides.
-        alive: snap ? snap.status !== 'unavailable' : false,
+        // Component availability, three states: true = usable, false = its
+        // bundle row is disabled (the entry reports unavailable), null = the
+        // settings mirror has not answered yet. Cards hide only on false; on
+        // null they render disabled defaults with a read-only note.
+        alive: snap ? snap.status === 'unavailable' ? false : true : null,
         writable: snap ? snap.writable !== false : false,
       };
     }
@@ -876,6 +836,11 @@ window.__ModuleLoader__.load({
     let lastSnapForScan = null;
     let lastEffForScan = null;
     let lastAppliedEff = null;
+    // Last data-* values written on <html>; attribute writes are skipped when
+    // they would not change anything.
+    let rootNs = null;
+    let rootChat = null;
+    let rootActive = null;
     // HeroMotto only mounts on the new-session screen (the hero). It flips this
     // flag, giving the scanner a reliable view signal that needs no host class.
     let heroMounted = false;
@@ -974,13 +939,28 @@ window.__ModuleLoader__.load({
       if (r) r.remove();
     }
 
-    let mottoRaf = 0;
+    // Scans are throttled: a streaming transcript mutates the DOM every frame,
+    // and a full-document query per frame is wasted work when nothing changed.
+    // A trailing run guarantees the last state is applied after a burst.
+    const SCAN_MIN_MS = 120;
+    let scanHandle = 0;
+    let scanTrailing = 0;
+    let lastScanAt = 0;
+    function runMottoScan() {
+      scanHandle = 0;
+      lastScanAt = Date.now();
+      scanComposerCards();
+    }
     function scheduleMottoScan() {
-      if (mottoRaf) return;
-      const run = () => { mottoRaf = 0; scanComposerCards(); };
-      mottoRaf = (typeof requestAnimationFrame === 'function')
-        ? requestAnimationFrame(run)
-        : (setTimeout(run, 16), 0);
+      if (scanHandle || scanTrailing) return;
+      const wait = Math.max(0, lastScanAt + SCAN_MIN_MS - Date.now());
+      if (wait === 0) {
+        scanHandle = (typeof requestAnimationFrame === 'function')
+          ? requestAnimationFrame(runMottoScan)
+          : setTimeout(runMottoScan, 16);
+        return;
+      }
+      scanTrailing = setTimeout(() => { scanTrailing = 0; scheduleMottoScan(); }, wait);
     }
 
     function currentMottoEffective() {
@@ -1014,6 +994,7 @@ window.__ModuleLoader__.load({
 
     function scanComposerCards() {
       if (typeof document === 'undefined') return;
+      if (document.hidden) return;
       const alive = marqueeAliveState();
       if (alive === 'unknown') return;
       if (alive === 'dead') {
@@ -1026,9 +1007,12 @@ window.__ModuleLoader__.load({
       // flag, so CSS/debugging can read the live state without the settings card.
       const rootEl = document.documentElement;
       if (rootEl && rootEl.setAttribute) {
-        rootEl.setAttribute('data-motto-ns', eff.scopeNewSession ? '1' : '0');
-        rootEl.setAttribute('data-motto-chat', eff.scopeChat ? '1' : '0');
-        rootEl.setAttribute('data-motto-active', (eff.borderEnabled || eff.glowEnabled || eff.marqueeEnabled || eff.breatheEnabled) ? '1' : '0');
+        const ns = eff.scopeNewSession ? '1' : '0';
+        const chat = eff.scopeChat ? '1' : '0';
+        const active = (eff.borderEnabled || eff.glowEnabled || eff.marqueeEnabled || eff.breatheEnabled) ? '1' : '0';
+        if (rootNs !== ns) { rootNs = ns; rootEl.setAttribute('data-motto-ns', ns); }
+        if (rootChat !== chat) { rootChat = chat; rootEl.setAttribute('data-motto-chat', chat); }
+        if (rootActive !== active) { rootActive = active; rootEl.setAttribute('data-motto-active', active); }
       }
       const changed = eff !== lastAppliedEff;
       lastAppliedEff = eff;
@@ -1050,6 +1034,113 @@ window.__ModuleLoader__.load({
       mottoObserver.observe(document.body, { childList: true, subtree: true });
       // A resize can rebuild the composer layout; re-scan once it settles.
       window.addEventListener('resize', scheduleMottoScan);
+      // Scans pause while the tab is hidden; catch up once it is visible again.
+      document.addEventListener('visibilitychange', () => { if (!document.hidden) scheduleMottoScan(); });
+    }
+
+    // ---- Shared card scaffolding. Both component cards render the same
+    // shapes, so they live here once instead of per card.
+    // One bordered group per concern; captions are intentionally dropped.
+    function cardGroup(title, ...children) {
+      return h('section', { className: 'hero-motto-group' },
+        h('div', { className: 'hero-motto-head' },
+          h('h4', { className: 'hero-motto-title' }, title),
+        ),
+        children
+          .filter((child) => child !== null && child !== undefined && child !== false)
+          .map((child, position) => (React.isValidElement(child) && child.key == null
+            ? React.cloneElement(child, { key: 'g' + position })
+            : child)),
+      );
+    }
+    // Section divider that splits a card into its component halves.
+    function cardSection(title) {
+      return h('div', { className: 'hero-motto-section' },
+        h('h4', { className: 'hero-motto-sectionTitle' }, title));
+    }
+    // Segmented control: replaces radio groups, reports the active segment.
+    function cardSegments(name, options, current, onPick, writable) {
+      return h('div', { className: 'hero-motto-segments', role: 'group', 'aria-label': name },
+        options.map((option) => h('button', {
+          key: option.value,
+          type: 'button',
+          className: 'hero-motto-segment',
+          'aria-pressed': current === option.value,
+          disabled: !writable,
+          onClick: () => onPick(option.value),
+        }, option.label)));
+    }
+    // One settings write: the card's own form first, the page-owned form as a
+    // fallback channel. Errors are logged once here, not per card.
+    function writeSettings(writable, form, ownerForm, field, value) {
+      if (!writable) return;
+      if (form) {
+        Promise.resolve(form.set(field, value)).catch((error) => {
+          console.warn('hero-motto: settings write failed:', error);
+        });
+        return;
+      }
+      if (ownerForm && typeof ownerForm.mutate === 'function') {
+        Promise.resolve(ownerForm.mutate([{ op: 'set', path: [field], value }])).catch((error) => {
+          console.warn('hero-motto: settings write failed:', error);
+        });
+      }
+    }
+    // Debounced draft: keystrokes update local state, only a settled value is
+    // written. Shared by the range inputs and the accent editor.
+    function useDebouncedDraft({ value, commit, writable, delay = 350, transform }) {
+      const [draft, setDraft] = React.useState(value);
+      const draftRef = React.useRef(value);
+      const timer = React.useRef(null);
+      const dragging = React.useRef(false);
+      const transformRef = React.useRef(transform);
+      transformRef.current = transform;
+      const clean = (raw) => (transformRef.current ? transformRef.current(raw) : raw);
+      React.useEffect(() => {
+        if (dragging.current) return;
+        draftRef.current = value;
+        setDraft(value);
+      }, [value]);
+      React.useEffect(() => () => { if (timer.current) clearTimeout(timer.current); }, []);
+      const settle = (raw) => {
+        const next = clean(raw);
+        if (next !== value) commit(next);
+      };
+      const flush = () => {
+        if (timer.current) { clearTimeout(timer.current); timer.current = null; }
+        settle(draftRef.current);
+      };
+      const schedule = (raw) => {
+        draftRef.current = raw;
+        setDraft(raw);
+        if (!writable) return;
+        if (timer.current) clearTimeout(timer.current);
+        timer.current = setTimeout(() => { timer.current = null; settle(raw); }, delay);
+      };
+      const pick = (raw) => {
+        draftRef.current = raw;
+        setDraft(raw);
+        if (!writable) return;
+        settle(raw);
+      };
+      const normalize = () => {
+        const next = clean(draftRef.current);
+        draftRef.current = next;
+        setDraft(next);
+        flush();
+      };
+      return {
+        draft,
+        draftRef,
+        setDraft,
+        schedule,
+        flush,
+        pick,
+        normalize,
+        startDrag: () => { dragging.current = true; },
+        endDrag: () => { dragging.current = false; flush(); },
+        cancelDrag: () => { dragging.current = false; },
+      };
     }
 
     // ---- Reusable controls for the 2.1.0 groups. Module-level so React keeps
@@ -1057,30 +1148,11 @@ window.__ModuleLoader__.load({
     // stable); both take commit/writable as props so the card owns the channel.
     function MottoRange(props) {
       const { field, value, min, max, step, format, commit, writable, visible } = props;
-      const [draft, setDraft] = React.useState(value);
-      const draftRef = React.useRef(value);
-      const timer = React.useRef(null);
-      const dragging = React.useRef(false);
-      React.useEffect(() => {
-        if (dragging.current) return;
-        draftRef.current = value;
-        setDraft(value);
-      }, [value]);
-      React.useEffect(() => () => { if (timer.current) clearTimeout(timer.current); }, []);
-      const flush = () => {
-        if (timer.current) { clearTimeout(timer.current); timer.current = null; }
-        if (draftRef.current !== value) commit(field, draftRef.current);
-      };
-      const schedule = (next) => {
-        draftRef.current = next;
-        setDraft(next);
-        if (!writable) return;
-        if (timer.current) clearTimeout(timer.current);
-        timer.current = setTimeout(() => {
-          timer.current = null;
-          if (next !== value) commit(field, next);
-        }, 350);
-      };
+      const { draft, schedule, startDrag, endDrag, cancelDrag } = useDebouncedDraft({
+        value,
+        commit: (next) => commit(field, next),
+        writable,
+      });
       return h('div', { className: 'hero-motto-range', style: visible === false ? { display: 'none' } : undefined },
         h('input', {
           type: 'range',
@@ -1089,11 +1161,11 @@ window.__ModuleLoader__.load({
           step,
           value: draft,
           disabled: !writable,
-          onPointerDown: () => { dragging.current = true; },
+          onPointerDown: startDrag,
           onChange: (event) => schedule(Number(event.target.value)),
-          onPointerUp: () => { dragging.current = false; flush(); },
-          onPointerCancel: () => { dragging.current = false; },
-          onBlur: () => { dragging.current = false; flush(); },
+          onPointerUp: endDrag,
+          onPointerCancel: cancelDrag,
+          onBlur: endDrag,
         }),
         h('span', { className: 'hero-motto-value' }, format ? format(draft) : String(draft)));
     }
@@ -1118,7 +1190,6 @@ window.__ModuleLoader__.load({
       const ownerForm = props && props.form;
       // The settings controller for this entry, supplied by apply via inject.
       const mottoForm = props && props.mottoForm;
-      if (view !== undefined && view !== 'page') return null;
       // Keep the `this` receiver: ConfigFormController methods read `this.store`,
       // so passing them to useSyncExternalStore bare would detach `this`.
       const store = mottoForm
@@ -1126,18 +1197,16 @@ window.__ModuleLoader__.load({
         : NULL_STORE;
       const snapshot = useSyncExternalStore(store.subscribe, store.getSnapshot);
       const effective = React.useMemo(() => computeEffective(snapshot), [snapshot]);
-      // 2.1.1 component split: hide this card entirely when the motto row is
-      // disabled (entry unavailable) or its form channel is absent. The check
-      // lives at the render tail — early-returning before the hooks below
-      // would crash the tree on an availability flip.
+      // Availability is checked at the render tail: a disabled row (entry
+      // unavailable) hides the card, while a not-yet-answered mirror renders
+      // disabled defaults with a read-only note. The checks stay after every
+      // hook, so an availability flip never changes the hook count.
       const writable = snapshot ? snapshot.writable !== false : false;
 
       const [draftPhrases, setDraftPhrases] = React.useState(effective.phrases);
       React.useEffect(() => { setDraftPhrases(effective.phrases); }, [effective.phrases]);
       const userFontNames = useSyncExternalStore(userFontStore.subscribe, userFontStore.getSnapshot);
       const [fontError, setFontError] = React.useState(false);
-      const [draftAccent, setDraftAccent] = React.useState(effective.accent);
-      React.useEffect(() => { setDraftAccent(effective.accent); }, [effective.accent]);
       const pickFontFile = async (event) => {
         const file = event.target.files && event.target.files[0];
         event.target.value = '';
@@ -1165,116 +1234,21 @@ window.__ModuleLoader__.load({
         }
       };
 
-      // The slider is drag-driven: every change updates local state, and only a
-      // settled value is written. Writing per step would queue one settings RPC
-      // per pixel and make the drag crawl.
-      const [intervalDraft, setIntervalDraft] = React.useState(effective.intervalSeconds);
-      const intervalDraftRef = React.useRef(effective.intervalSeconds);
-      const intervalTimer = React.useRef(null);
-      const draggingRef = React.useRef(false);
-      React.useEffect(() => {
-        if (draggingRef.current) return;
-        intervalDraftRef.current = effective.intervalSeconds;
-        setIntervalDraft(effective.intervalSeconds);
-      }, [effective.intervalSeconds]);
-      React.useEffect(() => () => { if (intervalTimer.current) clearTimeout(intervalTimer.current); }, []);
-      const flushInterval = (value) => {
-        if (intervalTimer.current) {
-          clearTimeout(intervalTimer.current);
-          intervalTimer.current = null;
-        }
-        if (value !== effective.intervalSeconds) commit('intervalSeconds', value);
-      };
-      const scheduleInterval = (value) => {
-        intervalDraftRef.current = value;
-        setIntervalDraft(value);
-        if (!writable) return;
-        if (intervalTimer.current) clearTimeout(intervalTimer.current);
-        intervalTimer.current = setTimeout(() => {
-          intervalTimer.current = null;
-          if (value !== effective.intervalSeconds) commit('intervalSeconds', value);
-        }, 350);
-      };
+
+
+      const commit = (field, value) => writeSettings(writable, mottoForm, ownerForm, field, value);
 
       // The colour well streams a value per pointer move: preview it locally and
-      // write only the settled colour, exactly like the interval slider.
-      const accentDraftRef = React.useRef(effective.accent);
-      const accentTimer = React.useRef(null);
-      const accentDraggingRef = React.useRef(false);
-      React.useEffect(() => {
-        if (accentDraggingRef.current) return;
-        accentDraftRef.current = effective.accent;
-        setDraftAccent(effective.accent);
-      }, [effective.accent]);
-      React.useEffect(() => () => { if (accentTimer.current) clearTimeout(accentTimer.current); }, []);
-      const flushAccent = () => {
-        if (accentTimer.current) {
-          clearTimeout(accentTimer.current);
-          accentTimer.current = null;
-        }
-        const clean = sanitizeAccent(accentDraftRef.current);
-        if (clean !== effective.accent) commit('accent', clean);
-      };
-      const scheduleAccent = (value) => {
-        accentDraftRef.current = value;
-        setDraftAccent(value);
-        if (!writable) return;
-        if (accentTimer.current) clearTimeout(accentTimer.current);
-        accentTimer.current = setTimeout(() => {
-          accentTimer.current = null;
-          if (value !== effective.accent) commit('accent', value);
-        }, 350);
-      };
+      // write only the settled colour, exactly like the range sliders.
+      const accent = useDebouncedDraft({
+        value: effective.accent,
+        commit: (next) => commit('accent', next),
+        writable,
+        transform: sanitizeAccent,
+      });
       // Preset swatches commit at once: a single click is already settled.
-      const pickAccent = (value) => {
-        accentDraftRef.current = value;
-        setDraftAccent(value);
-        if (value !== effective.accent) commit('accent', value);
-      };
+      const pickAccent = (value) => accent.pick(value);
 
-      const commit = (field, value) => {
-        if (!writable) return;
-        if (mottoForm) {
-          Promise.resolve(mottoForm.set(field, value)).catch((error) => {
-            console.warn('hero-motto: settings write failed:', error);
-          });
-          return;
-        }
-        // Fall back to the page-owned form's mutate when the local channel is absent.
-        if (ownerForm && typeof ownerForm.mutate === 'function') {
-          Promise.resolve(ownerForm.mutate([{ op: 'set', path: [field], value }])).catch((error) => {
-            console.warn('hero-motto: settings write failed:', error);
-          });
-        }
-      };
-
-      // One bordered group per concern: title, then any number of controls.
-      // Captions (subtitles) are intentionally dropped: the card stays clean.
-      const group = (title, _caption, ...children) => h('section', { className: 'hero-motto-group' },
-        h('div', { className: 'hero-motto-head' },
-          h('h4', { className: 'hero-motto-title' }, title),
-        ),
-        children
-          .filter((child) => child !== null && child !== undefined && child !== false)
-          .map((child, position) => (React.isValidElement(child) && child.key == null
-            ? React.cloneElement(child, { key: 'g' + position })
-            : child)),
-      );
-      // Section divider that splits the card into "home motto" and "border
-      // marquee" halves.
-      const section = (title) => h('div', { className: 'hero-motto-section' },
-        h('h4', { className: 'hero-motto-sectionTitle' }, title));
-      // Segmented control: replaces radio groups, reports the active segment.
-      const segments = (name, options, current, onPick) => h('div', {
-        className: 'hero-motto-segments', role: 'group', 'aria-label': name,
-      }, options.map((option) => h('button', {
-        key: option.value,
-        type: 'button',
-        className: 'hero-motto-segment',
-        'aria-pressed': current === option.value,
-        disabled: !writable,
-        onClick: () => onPick(option.value),
-      }, option.label)));
 
       const editRow = (draft, setDraft, committed, field) => h('div', { className: 'hero-motto-rows' },
         draft.map((phrase, i) => h('div', { className: 'hero-motto-phrase', key: i },
@@ -1320,6 +1294,7 @@ window.__ModuleLoader__.load({
         }, '+ ' + t.add),
       );
 
+      if (view !== undefined && view !== 'page') return null;
       if (effective.alive === false) return null;
       return h('div', {
         className: 'hero-motto-card',
@@ -1327,38 +1302,34 @@ window.__ModuleLoader__.load({
         style: { '--hero-motto-accent': effective.accent },
       },
         h('style', null, STYLES),
-        section(t.mottoSection),
-        group(t.phrases, t.phrasesHint,
+        cardSection(t.mottoSection),
+        !snapshot ? h('p', { className: 'hero-motto-note' }, t.readonly) : null,
+        cardGroup(t.phrases,
           h('div', { className: 'hero-motto-stack' },
             editRow(draftPhrases, setDraftPhrases, effective.phrases, 'phrases')),
           h('p', { className: 'hero-motto-note' }, t.highlightHint)),
-        group(t.interval, t.intervalHint, h('div', { className: 'hero-motto-range' },
-          h('input', {
-            type: 'range',
+        cardGroup(t.interval,
+          h(MottoRange, {
+            field: 'intervalSeconds',
+            value: effective.intervalSeconds,
             min: 2,
             max: 120,
             step: 1,
-            value: intervalDraft,
-            disabled: !writable,
-            onPointerDown: () => { draggingRef.current = true; },
-            onChange: (event) => scheduleInterval(Number(event.target.value)),
-            onPointerUp: () => { draggingRef.current = false; flushInterval(intervalDraftRef.current); },
-            onPointerCancel: () => { draggingRef.current = false; },
-            onBlur: () => { draggingRef.current = false; flushInterval(intervalDraftRef.current); },
-          }),
-          h('span', { className: 'hero-motto-value' }, t.intervalUnit(intervalDraft)),
-        )),
-        group(t.animation, t.animationHint,
-          segments('hero-motto-animation',
-            ANIMATIONS.map((mode) => ({ value: mode, label: t.animLabel[mode] })),
-            effective.animation,
-            (mode) => commit('animation', mode))),
-        group(t.align, t.alignHint,
-          segments('hero-motto-align',
-            ['left', 'center', 'right'].map((mode) => ({ value: mode, label: t.alignLabel[mode] })),
-            effective.align,
-            (mode) => commit('align', mode))),
-        group(t.font, t.fontHint, h('div', { className: 'hero-motto-stack' },
+            format: t.intervalUnit,
+            commit,
+            writable,
+          })),
+        cardGroup(t.animation, cardSegments('hero-motto-animation',
+          ANIMATIONS.map((mode) => ({ value: mode, label: t.animLabel[mode] })),
+          effective.animation,
+          (mode) => commit('animation', mode),
+          writable)),
+        cardGroup(t.align, cardSegments('hero-motto-align',
+          ['left', 'center', 'right'].map((mode) => ({ value: mode, label: t.alignLabel[mode] })),
+          effective.align,
+          (mode) => commit('align', mode),
+          writable)),
+        cardGroup(t.font, h('div', { className: 'hero-motto-stack' },
           h('div', { className: 'hero-motto-row' },
             h('select', {
               value: effective.fontFamily,
@@ -1405,7 +1376,7 @@ window.__ModuleLoader__.load({
           ),
           fontError ? h('p', { className: 'hero-motto-note' }, t.fontLoadFailed) : null,
         )),
-        group(t.accent, t.accentHint, h('div', { className: 'hero-motto-stack' },
+        cardGroup(t.accent, h('div', { className: 'hero-motto-stack' },
           h('div', { className: 'hero-motto-swatches' },
             ACCENT_PRESETS.map((preset) => h('button', {
               key: preset,
@@ -1423,11 +1394,11 @@ window.__ModuleLoader__.load({
                 type: 'color',
                 value: effective.accent,
                 disabled: !writable,
-                onPointerDown: () => { accentDraggingRef.current = true; },
-                onChange: (event) => scheduleAccent(event.target.value.toUpperCase()),
-                onPointerUp: () => { accentDraggingRef.current = false; flushAccent(); },
-                onPointerCancel: () => { accentDraggingRef.current = false; },
-                onBlur: () => { accentDraggingRef.current = false; flushAccent(); },
+                onPointerDown: accent.startDrag,
+                onChange: (event) => accent.schedule(event.target.value.toUpperCase()),
+                onPointerUp: accent.endDrag,
+                onPointerCancel: accent.cancelDrag,
+                onBlur: accent.endDrag,
               }),
             ),
           ),
@@ -1435,21 +1406,17 @@ window.__ModuleLoader__.load({
             h('input', {
               type: 'text',
               className: 'hero-motto-hex',
-              value: draftAccent,
+              value: accent.draft,
               placeholder: '#5B7BFE',
               spellCheck: false,
               disabled: !writable,
-              onChange: (event) => scheduleAccent(event.target.value),
-              onBlur: () => {
-                const clean = sanitizeAccent(accentDraftRef.current);
-                setDraftAccent(clean);
-                flushAccent();
-              },
+              onChange: (event) => accent.schedule(event.target.value),
+              onBlur: accent.normalize,
               onKeyDown: (event) => { if (event.key === 'Enter') event.target.blur(); },
             }),
           ),
         )),
-        group(t.display, null,
+        cardGroup(t.display,
           h('label', { className: 'hero-motto-switchRow' },
             h('span', { className: 'hero-motto-switchText' },
               h('span', null, t.previewBadge)),
@@ -1474,7 +1441,6 @@ window.__ModuleLoader__.load({
       const t = copy();
       const view = props && props.view;
       const marqueeForm = props && props.marqueeForm;
-      if (view !== undefined && view !== 'page') return null;
       // The live scanner reads the same form this card edits.
       liveMottoForm = marqueeForm || null;
       const store = marqueeForm
@@ -1487,36 +1453,8 @@ window.__ModuleLoader__.load({
       // crash the tree on an availability flip.
       const writable = snapshot ? snapshot.writable !== false : false;
 
-      const commit = (field, value) => {
-        if (!writable || !marqueeForm) return;
-        Promise.resolve(marqueeForm.set(field, value)).catch((error) => {
-          console.warn('hero-motto: settings write failed:', error);
-        });
-      };
+      const commit = (field, value) => writeSettings(writable, marqueeForm, null, field, value);
 
-      // One bordered group per concern: title, then any number of controls.
-      const group = (title, _caption, ...children) => h('section', { className: 'hero-motto-group' },
-        h('div', { className: 'hero-motto-head' },
-          h('h4', { className: 'hero-motto-title' }, title),
-        ),
-        children
-          .filter((child) => child !== null && child !== undefined && child !== false)
-          .map((child, position) => (React.isValidElement(child) && child.key == null
-            ? React.cloneElement(child, { key: 'g' + position })
-            : child)),
-      );
-      const section = (title) => h('div', { className: 'hero-motto-section' },
-        h('h4', { className: 'hero-motto-sectionTitle' }, title));
-      const segments = (name, options, current, onPick) => h('div', {
-        className: 'hero-motto-segments', role: 'group', 'aria-label': name,
-      }, options.map((option) => h('button', {
-        key: option.value,
-        type: 'button',
-        className: 'hero-motto-segment',
-        'aria-pressed': current === option.value,
-        disabled: !writable,
-        onClick: () => onPick(option.value),
-      }, option.label)));
 
       // ---- Border marquee: colour / effect / scope controls (2.1.0) ----
       // The custom-group library is edited through a local draft so structural
@@ -1651,11 +1589,11 @@ window.__ModuleLoader__.load({
           : null,
       );
 
-      const colorGroup = group(t.color, t.colorHint,
-        segments('hero-motto-palette-mode', [{ value: 'preset', label: t.preset }, { value: 'custom', label: t.custom }], effective.paletteMode, (mode) => commit('paletteMode', mode)),
+      const colorGroup = cardGroup(t.color,
+        cardSegments('hero-motto-palette-mode', [{ value: 'preset', label: t.preset }, { value: 'custom', label: t.custom }], effective.paletteMode, (mode) => commit('paletteMode', mode), writable),
         effective.paletteMode === 'preset'
           ? h('div', { className: 'hero-motto-stack' },
-            segments('hero-motto-preset', PRESET_LIST.map((key) => ({ value: key, label: t.presetLabels[key] })), effective.presetPalette, pickPreset),
+            cardSegments('hero-motto-preset', PRESET_LIST.map((key) => ({ value: key, label: t.presetLabels[key] })), effective.presetPalette, pickPreset, writable),
             h('div', { className: 'hero-motto-preview', style: { height: 12, borderRadius: 8, background: 'linear-gradient(90deg, ' + stopsToCss(resolveStops(effective)) + ')' }, 'aria-hidden': true }),
             h('div', { className: 'hero-motto-dots' },
               resolveStops(effective).slice(0, -1).map((color, i) => h('span', {
@@ -1671,27 +1609,29 @@ window.__ModuleLoader__.load({
       const labeledRange = (label, rangeProps) => h('div', { className: 'hero-motto-rows' },
         h('span', { className: 'hero-motto-note' }, label),
         h(MottoRange, Object.assign({ commit, writable }, rangeProps)));
-      const effectsGroup = group(t.effect, t.effectHint,
+      const effectsGroup = cardGroup(t.effect,
         effectBlock(t.border, 'borderEnabled', effective.borderEnabled, { field: 'ringWidthPx', value: effective.ringWidthPx, min: 1, max: 6, step: 1, format: t.ringWidthUnit }),
         effectBlock(t.glow, 'glowEnabled', effective.glowEnabled, { field: 'glowIntensity', value: effective.glowIntensity, min: 0, max: 100, step: 1, format: t.glowIntensityUnit }),
         effectBlock(t.marquee, 'marqueeEnabled', effective.marqueeEnabled, { field: 'marqueeFlow', value: effective.marqueeFlow, min: 1, max: 10, step: 0.5, format: t.flowUnit }),
         effectBlock(t.breathe, 'breatheEnabled', effective.breatheEnabled, { field: 'breathePerMin', value: effective.breathePerMin, min: 10, max: 60, step: 1, format: t.breatheRateUnit }),
         labeledRange(t.brightness, { field: 'brightness', value: effective.brightness, min: 0, max: 200, step: 5, format: t.brightnessUnit }),
       );
-      const scopeGroup = group(t.scope, t.scopeHint,
+      const scopeGroup = cardGroup(t.scope,
         h(MottoToggle, { label: t.scopeNs, field: 'scopeNewSession', checked: effective.scopeNewSession, commit, writable }),
         h(MottoToggle, { label: t.scopeChat, field: 'scopeChat', checked: effective.scopeChat, commit, writable }),
         h(MottoToggle, { label: t.focusOnly, field: 'focusOnly', checked: effective.focusOnly, commit, writable }),
       );
 
 
+      if (view !== undefined && view !== 'page') return null;
       if (effective.alive === false) return null;
       return h('div', {
         className: 'hero-motto-card',
         style: { '--hero-motto-accent': effective.accent },
       },
         h('style', null, STYLES),
-        section(t.marqueeSection),
+        cardSection(t.marqueeSection),
+        !snapshot ? h('p', { className: 'hero-motto-note' }, t.readonly) : null,
         colorGroup,
         effectsGroup,
         scopeGroup,
