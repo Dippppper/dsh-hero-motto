@@ -1,7 +1,7 @@
 window.__ModuleLoader__.load({
   id: 'dsh-hero-motto',
   factory(require) {
-    console.info('[hero-motto] client v2.2.2 loaded');
+    console.info('[hero-motto] client v2.3.4 loaded');
     const React = require('react');
     const h = React.createElement;
     const useSyncExternalStore = React.useSyncExternalStore || React.unstable_useSyncExternalStore;
@@ -26,8 +26,9 @@ window.__ModuleLoader__.load({
     const ENTRY_ID = 'hero-motto';
     // 2.1.1 component split: the border marquee is its own bundle row.
     const MARQUEE_ENTRY_ID = 'hero-motto-marquee';
-    const ANIMATIONS = ['float', 'blur', 'typewriter', 'none'];
+    const ANIMATIONS = ['float', 'blur', 'typewriter', 'wipe', 'none'];
     const LEAVE_MS = 420;
+    const WIPE_MS = 1000;
     const TYPE_MS = 45;
 
     const COPY = {
@@ -39,8 +40,12 @@ window.__ModuleLoader__.load({
         interval: '切换间隔',
         intervalUnit: (n) => n + ' 秒',
         animation: '切换动画',
-        animLabel: { float: '上浮淡入', blur: '模糊切换', typewriter: '打字机', none: '无动画' },
+        animLabel: { float: '上浮淡入', blur: '模糊切换', typewriter: '打字机', wipe: '遮罩切换', none: '无动画' },
+        wipeDuration: '遮罩时长',
+        wipeDurationUnit: (n) => n + ' 毫秒',
         font: '字体',
+        fontSize: '字号',
+        fontSizeUnit: (n) => n + '%',
         fontDefault: '回到默认',
         fontPreset: { systemUi: '系统界面', serif: '衬线', mono: '等宽', rounded: '圆润' },
         fontPick: '选择字体文件…',
@@ -48,6 +53,7 @@ window.__ModuleLoader__.load({
         fontRemove: (name) => '删除字体 ' + name,
         fontLoadFailed: '字体文件读取失败，换个文件试试',
         previewBadge: '保留「预览版」徽标',
+        previewBadgeHint: '部分主题插件会屏蔽预览版徽标，在此种情况下该选项不生效',
         display: '显示',
         accent: '主题色',
         accentPick: '自定义颜色',
@@ -107,8 +113,12 @@ window.__ModuleLoader__.load({
         interval: 'Rotation interval',
         intervalUnit: (n) => n + ' s',
         animation: 'Animation',
-        animLabel: { float: 'Float in', blur: 'Blur', typewriter: 'Typewriter', none: 'None' },
+        animLabel: { float: 'Float in', blur: 'Blur', typewriter: 'Typewriter', wipe: 'Mask wipe', none: 'None' },
+        wipeDuration: 'Wipe duration',
+        wipeDurationUnit: (n) => n + ' ms',
         font: 'Font',
+        fontSize: 'Font size',
+        fontSizeUnit: (n) => n + '%',
         fontDefault: 'Back to default',
         fontPreset: { systemUi: 'System UI', serif: 'Serif', mono: 'Mono', rounded: 'Rounded' },
         fontPick: 'Choose font file…',
@@ -116,6 +126,7 @@ window.__ModuleLoader__.load({
         fontRemove: (name) => 'Remove font ' + name,
         fontLoadFailed: 'Could not read that font file; try another one',
         previewBadge: 'Keep the "Preview" badge',
+        previewBadgeHint: 'Some theme plugins hide the preview badge; this option has no effect in that case.',
         display: 'Display',
         accent: 'Accent colour',
         accentPick: 'Custom colour',
@@ -184,6 +195,18 @@ window.__ModuleLoader__.load({
       const n = Number(value);
       if (!Number.isFinite(n)) return fallback;
       return Math.min(120, Math.max(2, Math.round(n)));
+    }
+    // Headline size as a percentage of the shipped size; 100 follows the theme.
+    function clampFontScale(value) {
+      const n = Number(value);
+      if (!Number.isFinite(n)) return 100;
+      return Math.min(160, Math.max(40, Math.round(n)));
+    }
+    // Sweep duration in ms; the card exposes 300-1600 in 50 ms steps.
+    function clampWipeDuration(value) {
+      const n = Number(value);
+      if (!Number.isFinite(n)) return WIPE_MS;
+      return Math.min(1600, Math.max(300, Math.round(n / 50) * 50));
     }
     function sanitizeAnimation(value) {
       return ANIMATIONS.includes(value) ? value : 'float';
@@ -382,7 +405,9 @@ window.__ModuleLoader__.load({
         phrases: mergePhrases(value),
         intervalSeconds: clampInterval(value.intervalSeconds, 8),
         animation: sanitizeAnimation(value.animation),
+        wipeDurationMs: clampWipeDuration(value.wipeDurationMs),
         fontFamily: sanitizeFont(value.fontFamily),
+        fontScale: clampFontScale(value.fontScale),
         showPreviewBadge: value.showPreviewBadge !== false,
         align: sanitizeAlign(value.align),
         accent: sanitizeAccent(value.accent),
@@ -477,9 +502,15 @@ window.__ModuleLoader__.load({
       // Typewriter visible character count; a number while erasing or growning,
       // null once the current phrase is fully shown.
       const [typed, setTyped] = React.useState(null);
+      // While a mask sweep runs, both the outgoing and incoming lines render;
+      // committing the index only after the sweep keeps the new line in place.
+      const [wipe, setWipe] = React.useState(null);
       const [hovering, setHovering] = React.useState(false);
       const leaveTimer = React.useRef(null);
       const typeTimer = React.useRef(null);
+      const wipeTimer = React.useRef(null);
+      const wipeRunning = React.useRef(false);
+      const wipeKey = React.useRef(0);
       const swappingRef = React.useRef(false);
       const clearTypeTimer = () => {
         if (typeTimer.current) {
@@ -489,6 +520,7 @@ window.__ModuleLoader__.load({
       };
       React.useEffect(() => () => {
         if (leaveTimer.current) clearTimeout(leaveTimer.current);
+        if (wipeTimer.current) clearTimeout(wipeTimer.current);
         clearTypeTimer();
       }, []);
       // The hero mark only exists on the new-session screen: publish that to the
@@ -572,6 +604,29 @@ window.__ModuleLoader__.load({
         }, TYPE_MS);
       };
 
+      // Mask sweep: the outgoing line keeps its place and no exit animation
+      // runs on it. A soft-edged cut line travels left to right; the incoming
+      // line sits underneath and is uncovered in place. Both layers share the
+      // same animated custom property, so their masks stay complementary.
+      const runWipeSwap = () => {
+        if (wipeRunning.current) return;
+        const target = nextIndex();
+        const from = indexRef.current;
+        // Freeze the duration for this sweep: the timer and the CSS animation
+        // must use the same value even if the setting changes mid-flight.
+        const duration = clampWipeDuration(settingsRef.current.wipeDurationMs);
+        wipeRunning.current = true;
+        wipeKey.current += 1;
+        setWipe({ from, to: target, key: wipeKey.current, duration });
+        wipeTimer.current = setTimeout(() => {
+          wipeTimer.current = null;
+          wipeRunning.current = false;
+          indexRef.current = target;
+          setIndex(target);
+          setWipe(null);
+        }, duration);
+      };
+
       const intervalMs = settings.intervalSeconds * 1000;
       const morphs = animation === 'float' || animation === 'blur';
       React.useEffect(() => {
@@ -579,6 +634,10 @@ window.__ModuleLoader__.load({
           if (typeof document !== 'undefined' && document.hidden) return;
           if (animation === 'typewriter') {
             runTypewriterSwap();
+            return;
+          }
+          if (animation === 'wipe') {
+            runWipeSwap();
             return;
           }
           const swap = () => {
@@ -606,6 +665,15 @@ window.__ModuleLoader__.load({
         return undefined;
       }, [animation]);
 
+      // Leaving the wipe mode drops a half-finished sweep.
+      React.useEffect(() => {
+        if (animation === 'wipe') return undefined;
+        if (wipeTimer.current) { clearTimeout(wipeTimer.current); wipeTimer.current = null; }
+        wipeRunning.current = false;
+        setWipe(null);
+        return undefined;
+      }, [animation]);
+
       // 2.1.1: when the motto component row is disabled, the store reports
       // alive:false and the hero mark renders nothing at all. Effects keep
       // running so the heroMounted view signal stays correct either way.
@@ -620,8 +688,24 @@ window.__ModuleLoader__.load({
         + (morphs && leaving ? ' hero-motto-leave' : '')
         + (animation === 'blur' ? ' hero-motto-blur' : '')
         + (animation === 'typewriter' ? ' hero-motto-type' : '')
-        + (animation === 'none' ? ' hero-motto-plain' : '');
+        + (animation === 'none' || animation === 'wipe' ? ' hero-motto-plain' : '');
+      // One layer's text, clamped to the live phrase list.
+      const wipeLayerText = (position) => {
+        const word = list[Math.min(Math.max(0, position), list.length - 1)] || '';
+        return renderHighlighted(word);
+      };
 
+      // Typography: family from the font picker, size as a percentage of the
+      // shipped headline size. 100% means "exactly as shipped", so a theme that
+      // changes its own headline size still scales from its own base.
+      const textFamily = cssFontFamily(settings.fontFamily);
+      const textStyle = {};
+      if (textFamily !== undefined) textStyle.fontFamily = textFamily;
+      if (settings.fontScale !== 100) textStyle.fontSize = settings.fontScale + '%';
+      const styleProp = Object.keys(textStyle).length === 0 ? undefined : textStyle;
+      const wipeStyle = wipe
+        ? Object.assign({}, styleProp || {}, { animationDuration: wipe.duration + 'ms' })
+        : null;
       const fish = h('svg', {
         className: props && props.className,
         width: (props && props.size) || 34,
@@ -656,12 +740,24 @@ window.__ModuleLoader__.load({
       },
         fish,
         h('style', null, STYLES),
-        h('span', {
-          key: index,
-          className: textClass,
-          // Typeface only: size and weight stay the shipped headline values.
-          style: cssFontFamily(settings.fontFamily) === undefined ? undefined : { fontFamily: cssFontFamily(settings.fontFamily) },
-        }, rendered));
+        wipe
+          ? h('span', { key: 'wipe' + wipe.key, className: 'hero-motto-wipeBox' },
+            h('span', {
+              key: 'new',
+              className: 'hero-motto-text hero-motto-wipeNew',
+              style: wipeStyle,
+            }, wipeLayerText(wipe.to)),
+            h('span', {
+              key: 'old',
+              className: 'hero-motto-text hero-motto-wipeOld',
+              style: wipeStyle,
+            }, wipeLayerText(wipe.from)))
+          : h('span', {
+            key: index,
+            className: textClass,
+            // Weight stays the shipped headline value; family and size are ours.
+            style: styleProp,
+          }, rendered));
     }
 
     const STYLES = [
@@ -670,7 +766,9 @@ window.__ModuleLoader__.load({
       '[class*="fishHitbox"] ~ [class*="titleGroup"] > span:first-child { display: none; }',
       // The badge lives in the title group. The mark renders INSIDE the shipped
       // hitbox span, so the hitbox - not the mark - is the title group's
-      // sibling: :has() lifts the opt-out state up to that sibling.
+      // sibling: :has() lifts the opt-out state up to that sibling. The switch
+      // only hides the badge: a theme that hides it on its own (dsh-claude-style
+      // does in its home layout) wins over this rule, and the card says so.
       '[class*="fishHitbox"]:has([data-hero-motto-badge="off"]) ~ [class*="titleGroup"] { display: none; }',
       // Alignment: the whole whale+phrase line sits left / center / right
       // against the composer card's width. The mark renders INSIDE the shipped
@@ -691,6 +789,29 @@ window.__ModuleLoader__.load({
       '.hero-motto-text.hero-motto-blur.hero-motto-leave { animation: hero-motto-blur-out 0.42s cubic-bezier(0.5, 0, 0.75, 0.4) both; }',
       '.hero-motto-text.hero-motto-type { animation: none; }',
       '.hero-motto-text.hero-motto-plain { animation: none; }',
+      // ---- Mask sweep. The outgoing line keeps its place: no fade, no lift.
+      // A soft-edged cut line decelerates from left to right; the incoming
+      // line sits underneath and the same cut line uncovers it in place.
+      '@property --hero-motto-wipe { syntax: "<number>"; inherits: false; initial-value: -6; }',
+      '@keyframes hero-motto-wipe-run { from { --hero-motto-wipe: -6; } to { --hero-motto-wipe: 106; } }',
+      '.hero-motto-wipeBox { display: inline-grid; align-items: center; }',
+      // Both layers fill the cell so their masks share one geometry. They lay
+      // out their text with the card's alignment setting - exactly where each
+      // layer will sit once the sweep ends, so nothing jumps on commit. Plain
+      // block layout keeps the spaces around [emphasised] runs intact (a flex
+      // container would trim them).
+      '.hero-motto-wipeBox > span { grid-area: 1 / 1; display: block; }',
+      '[data-hero-motto-align="left"] .hero-motto-wipeBox > span { text-align: left; }',
+      '[data-hero-motto-align="center"] .hero-motto-wipeBox > span { text-align: center; }',
+      '[data-hero-motto-align="right"] .hero-motto-wipeBox > span { text-align: right; }',
+      // Decelerating sweep: fastest at the start, slowest at the end, without
+      // the first-frame jump an expo curve would show.
+      '.hero-motto-wipeOld, .hero-motto-wipeNew { animation: hero-motto-wipe-run 1s cubic-bezier(0.33, 1, 0.68, 1) both; }',
+      // The outgoing line dissolves over a wide band; the incoming line arrives
+      // crisp inside it, so the cut reads as soft without a double exposure.
+      '.hero-motto-wipeOld { -webkit-mask-image: linear-gradient(90deg, transparent calc(var(--hero-motto-wipe) * 1% - 5%), #000 calc(var(--hero-motto-wipe) * 1% + 5%)); mask-image: linear-gradient(90deg, transparent calc(var(--hero-motto-wipe) * 1% - 5%), #000 calc(var(--hero-motto-wipe) * 1% + 5%)); }',
+      '.hero-motto-wipeNew { -webkit-mask-image: linear-gradient(90deg, #000 calc(var(--hero-motto-wipe) * 1% - 1.5%), transparent calc(var(--hero-motto-wipe) * 1% + 1.5%)); mask-image: linear-gradient(90deg, #000 calc(var(--hero-motto-wipe) * 1% - 1.5%), transparent calc(var(--hero-motto-wipe) * 1% + 1.5%)); }',
+      '@media (prefers-reduced-motion: reduce) { .hero-motto-wipeOld { display: none; } .hero-motto-wipeNew { animation: none !important; -webkit-mask-image: none; mask-image: none; } }',
       // [bracketed] runs: a fixed brand blue plus a touch of weight. The theme
       // tokens that would express this are not resolvable inside the hero, so
       // var() chains silently fell back to inherit (white on dark).
@@ -1324,6 +1445,18 @@ window.__ModuleLoader__.load({
           effective.animation,
           (mode) => commit('animation', mode),
           writable)),
+        effective.animation === 'wipe'
+          ? cardGroup(t.wipeDuration, h(MottoRange, {
+            field: 'wipeDurationMs',
+            value: effective.wipeDurationMs,
+            min: 300,
+            max: 1600,
+            step: 50,
+            format: t.wipeDurationUnit,
+            commit,
+            writable,
+          }))
+          : null,
         cardGroup(t.align, cardSegments('hero-motto-align',
           ['left', 'center', 'right'].map((mode) => ({ value: mode, label: t.alignLabel[mode] })),
           effective.align,
@@ -1376,6 +1509,17 @@ window.__ModuleLoader__.load({
           ),
           fontError ? h('p', { className: 'hero-motto-note' }, t.fontLoadFailed) : null,
         )),
+        cardGroup(t.fontSize,
+          h(MottoRange, {
+            field: 'fontScale',
+            value: effective.fontScale,
+            min: 40,
+            max: 160,
+            step: 5,
+            format: t.fontSizeUnit,
+            commit,
+            writable,
+          })),
         cardGroup(t.accent, h('div', { className: 'hero-motto-stack' },
           h('div', { className: 'hero-motto-swatches' },
             ACCENT_PRESETS.map((preset) => h('button', {
@@ -1431,6 +1575,7 @@ window.__ModuleLoader__.load({
               h('span', { className: 'hero-motto-knob' }),
             ),
           ),
+          h('p', { className: 'hero-motto-note' }, t.previewBadgeHint),
         ),
       );
     }

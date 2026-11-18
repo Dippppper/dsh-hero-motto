@@ -23,9 +23,11 @@ edit or remove the lines under **Plugins → New-session motto rotation**.
 | Feature | Notes |
 |---|---|
 | Custom text rotation | A shuffle bag visits every custom line once per cycle, so nothing repeats back to back. |
-| Animations | Float-in  Blur swap  Typewriter |
+| Animations | Float-in  Blur swap  Typewriter  Mask wipe |
+| Wipe duration | 300–1600 ms; the mask decelerates from left to right |
 | Rotation interval | 2–120 seconds |
 | Fonts | Four built-in presets, or upload your own `.ttf` / `.otf` / `.woff` / `.woff2` |
+| Font size | 40–160% of the shipped headline size; 100% keeps the theme's own size |
 | Alignment | Left  Center  Right, against the composer card |
 | Keyword emphasis | Wrap part of a line in `[brackets]` to paint it in the accent colour |
 | Accent colour | Six presets and a colour well |
@@ -95,6 +97,10 @@ does not own:
 - the border marquee, via the composer card's `[data-composer-card]` marker.
   Scope detection keys off this plugin's own hero mark being mounted, with a
   `[data-conversation-scroll]` / `[data-chat-flow-key]` ancestor as fallback.
+
+The preview-badge switch only hides the badge. A theme that hides the badge with its
+own rules (dsh-claude-style does in its home layout) wins over it, so the switch is
+inert there; the settings card says so.
 
 If a Harness update renames those, the original headline reappears, alignment
 stops moving, or the marquee disappears. All are single-line selector updates in
